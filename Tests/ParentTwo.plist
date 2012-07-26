@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>parentBoth</key>
+	<dict>
+		<key>key</key>
+		<string>parent_two_both</string>
+	</dict>
+	<key>parentTwo</key>
+	<dict>
+		<key>key</key>
+		<string>parent_two_only</string>
+	</dict>
+</dict>
+</plist>
