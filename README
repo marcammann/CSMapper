@@ -1,1 +1,24 @@
-Coming Soon.
+# Basics
+
+In its simplest form, CSMapper maps values of KVO compliant objects to KVO compliant objects.
+That being said, its use case is to map data from (multi dimensional) dictionaries, for example JSON responses, to objects.
+
+Let's look at an example:
+
+JSON:
+{
+	'random_key': 'value'
+}
+
+FancyObject:
+ - randomKey: NSString
+
+now the value of random_key needs to get mapped to randomKey. That's exactly what CSMapper does. 
+In this particular case, it would look for a plist file called "FancyObject.plist" which would need to contain a mapping like:
+
+<key>randomKey</key>
+<dict>
+	<key>key</key>
+	<string>random_key</string>
+</dict>
+
