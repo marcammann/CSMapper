@@ -66,5 +66,21 @@
 		<key>key</key>
 		<string>test_simple</string>
 	</dict>
+	<key>subSubValue</key>
+	<dict>
+		<key>mapper</key>
+		<string>HGSubKeyMapper</string>
+		<key>key</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>NSString</string>
+				<key>default</key>
+				<string>subSubDefaultValue</string>
+				<key>key</key>
+				<string>subSubValue</string>
+			</dict>
+		</array>
+	</dict>
 </dict>
 </plist>
