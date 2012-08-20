@@ -19,7 +19,7 @@ static NSString * const ATLMappingParentKey = @"__parent__";
 static NSString * const ATLMappingKeyKey = @"key";
 static NSString * const ATLMappingClassKey = @"type";
 static NSString * const ATLMappingMapperKey = @"mapper";
-
+static NSString * const ATLMappingDefaultKey = @"default";
 
 @implementation NSObject (CSAPI)
 
@@ -75,14 +75,32 @@ static NSString * const ATLMappingMapperKey = @"mapper";
 			if ([key isKindOfClass:[NSString class]]) {
 				inputValue = [aDictionary valueForKeyPath:key];
 				if (inputValue == nil) {
-					continue;
+					// Try getting the default.
+					inputValue = [propertyMapping objectForKey:ATLMappingDefaultKey];
+					if (inputValue == nil) {
+						continue;
+					}
 				}
 			} else if ([key isKindOfClass:[NSArray class]]) {
 				inputValue = [NSMutableArray arrayWithCapacity:[key count]];
-				for (NSString *subKey in key) {
-					subValue = [aDictionary valueForKey:subKey];
-					if (subValue != nil) {
-						[inputValue addObject:subValue];
+				for (id subKey in key) {
+					
+					if ([subKey isKindOfClass:[NSDictionary class]]) {
+						subValue = [aDictionary valueForKeyPath:[subKey valueForKey:ATLMappingKeyKey]];
+						
+						if (subValue == nil) {
+							subValue = [subKey valueForKey:ATLMappingDefaultKey];
+							[inputValue addObject:subValue];
+						} else {
+							[inputValue addObject:subValue];
+						}
+						
+					} else {
+						subValue = [aDictionary valueForKeyPath:subKey];
+						
+						if (subValue != nil) {
+							[inputValue addObject:subValue];
+						}
 					}
 				}
 				
