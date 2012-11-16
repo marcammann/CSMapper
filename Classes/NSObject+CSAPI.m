@@ -173,7 +173,6 @@ static NSString * const ATLMappingDefaultKey = @"default";
 		return (NSNumber *)self;
 	} else {
 		
-		LOG_G(@"%@ could not be converted to NSNumber", self);
 		return nil;
 	}
 }
