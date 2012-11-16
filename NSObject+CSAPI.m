@@ -21,7 +21,6 @@ static NSString * const ATLMappingClassKey = @"type";
 static NSString * const ATLMappingMapperKey = @"mapper";
 static NSString * const ATLMappingDefaultKey = @"default";
 
-
 @implementation NSObject (CSAPI)
 
 

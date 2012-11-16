@@ -50,7 +50,7 @@
 @property (nonatomic, strong) TestTestSubtype *testSubtype;
 @property (nonatomic, readwrite) BOOL trueBool;
 @property (nonatomic, readwrite) BOOL falseBool;
-
+@property (nonatomic, strong) NSString *subSubValue;
 @end
 
 
@@ -68,6 +68,7 @@
 @synthesize parentBoth;
 @synthesize parentOne;
 @synthesize parentTwo;
+@synthesize subSubValue;
 
 @end
 
@@ -197,6 +198,17 @@
 	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"parent_one",@"parent_one_only",@"parent_two",@"parent_two_only",nil]];
 	STAssertEqualObjects(@"parent_one", o.parentOne, @"ParentOne needs to be set");
 	STAssertEqualObjects(@"parent_two", o.parentTwo, @"ParentTwo needs to be set");
+}
+
+- (void)testCompoundSubtype
+{
+	TestTestObject *o = [[TestTestObject alloc] init];
+	
+	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"value", @"subSubValue",nil]];
+	STAssertEqualObjects(o.subSubValue, @"value", nil);
+	
+	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:nil, @"subSubValue",nil]];
+	STAssertEqualObjects(o.subSubValue, @"subSubDefaultValue", nil);
 }
 
 
