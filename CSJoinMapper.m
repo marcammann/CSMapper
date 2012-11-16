@@ -13,7 +13,7 @@
 + (NSString *)transformValue:(NSArray *)inputValue {
 	if (![inputValue isKindOfClass:[NSArray class]]) {
 #ifdef DEBUG
-		NSLog(@"[Mapping Error]: %@ is not of type NSArray", inputValue);
+		LOG_G(@"[Mapping Error]: %@ is not of type NSArray", inputValue);
 #endif
 		return nil;
 	}

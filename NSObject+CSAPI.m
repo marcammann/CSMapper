@@ -19,6 +19,7 @@ static NSString * const ATLMappingParentKey = @"__parent__";
 static NSString * const ATLMappingKeyKey = @"key";
 static NSString * const ATLMappingClassKey = @"type";
 static NSString * const ATLMappingMapperKey = @"mapper";
+static NSString * const ATLMappingDefaultKey = @"default";
 
 
 @implementation NSObject (CSAPI)
@@ -75,14 +76,32 @@ static NSString * const ATLMappingMapperKey = @"mapper";
 			if ([key isKindOfClass:[NSString class]]) {
 				inputValue = [aDictionary valueForKeyPath:key];
 				if (inputValue == nil) {
-					continue;
+					// Try getting the default.
+					inputValue = [propertyMapping objectForKey:ATLMappingDefaultKey];
+					if (inputValue == nil) {
+						continue;
+					}
 				}
 			} else if ([key isKindOfClass:[NSArray class]]) {
 				inputValue = [NSMutableArray arrayWithCapacity:[key count]];
-				for (NSString *subKey in key) {
-					subValue = [aDictionary valueForKey:subKey];
-					if (subValue != nil) {
-						[inputValue addObject:subValue];
+				for (id subKey in key) {
+					
+					if ([subKey isKindOfClass:[NSDictionary class]]) {
+						subValue = [aDictionary valueForKeyPath:[subKey valueForKey:ATLMappingKeyKey]];
+						
+						if (subValue == nil) {
+							subValue = [subKey valueForKey:ATLMappingDefaultKey];
+							[inputValue addObject:subValue];
+						} else {
+							[inputValue addObject:subValue];
+						}
+						
+					} else {
+						subValue = [aDictionary valueForKeyPath:subKey];
+						
+						if (subValue != nil) {
+							[inputValue addObject:subValue];
+						}
 					}
 				}
 				
@@ -155,7 +174,7 @@ static NSString * const ATLMappingMapperKey = @"mapper";
 		return (NSNumber *)self;
 	} else {
 		
-		NSLog(@"%@ could not be converted to NSNumber", self);
+		LOG_G(@"%@ could not be converted to NSNumber", self);
 		return nil;
 	}
 }
@@ -172,6 +191,87 @@ static NSString * const ATLMappingMapperKey = @"mapper";
 	}
 	
 	return nil;
+}
+
+
++ (id)valueForProperty:(NSString *)propertyName fromDictionary:(NSDictionary *)aDictionary {
+	NSString *class = [NSString stringWithFormat:@"%@", [self class]];
+	NSDictionary *mapping = [[self class] mappingForEntity:class];
+	
+	id key = nil;
+	NSDictionary *propertyMapping = nil;
+	id inputValue = nil;
+	id outputValue = nil;
+	id subValue = nil;
+	Class forcedClass = nil;
+	NSString *forcedClassString = nil;
+	Class mapperClass = nil;
+	SEL selector = nil;
+	
+	propertyMapping = [mapping objectForKey:propertyName];
+	
+	forcedClassString = [propertyMapping objectForKey:ATLMappingClassKey];
+	forcedClass = NSClassFromString(forcedClassString);
+	mapperClass = NSClassFromString([propertyMapping objectForKey:ATLMappingMapperKey]);
+	
+	key = [propertyMapping objectForKey:ATLMappingKeyKey];
+	// If key is array, try the fetch all values for input value
+	if ([key isKindOfClass:[NSString class]]) {
+		inputValue = [aDictionary valueForKeyPath:key];
+		if (inputValue == nil) {
+			// Try getting the default.
+			inputValue = [propertyMapping objectForKey:ATLMappingDefaultKey];
+			if (inputValue == nil) {
+				return nil;
+			}
+		}
+	} else if ([key isKindOfClass:[NSArray class]]) {
+		inputValue = [NSMutableArray arrayWithCapacity:[key count]];
+		for (id subKey in key) {
+			
+			if ([subKey isKindOfClass:[NSDictionary class]]) {
+				subValue = [aDictionary valueForKeyPath:[subKey valueForKey:ATLMappingKeyKey]];
+				
+				if (subValue == nil) {
+					subValue = [subKey valueForKey:ATLMappingDefaultKey];
+					[inputValue addObject:subValue];
+				} else {
+					[inputValue addObject:subValue];
+				}
+				
+			} else {
+				subValue = [aDictionary valueForKeyPath:subKey];
+				
+				if (subValue != nil) {
+					[inputValue addObject:subValue];
+				}
+			}
+		}
+		
+		if ([inputValue count] == 0) {
+			return nil;
+		}
+	}
+	
+	outputValue = inputValue;
+	if (forcedClass && ![inputValue isKindOfClass:forcedClass]) {
+		selector = NSSelectorFromString([NSString stringWithFormat:@"%@Value", forcedClass]);
+		if ([inputValue respondsToSelector:selector]) {
+			// Try to use the built in conversion features for known types
+			outputValue = objc_msgSend(inputValue, selector);
+		} else {
+			// Try to map unknown type with same technique.
+			id newValue = [[forcedClass alloc] init];
+			[newValue mapAttributesFromDictionary:inputValue];
+			outputValue = newValue;
+		}
+	}
+	
+	if (mapperClass && mapperClass) {
+		outputValue = [(id<CSMapper>)mapperClass transformValue:inputValue];
+	}
+	
+	return outputValue;
 }
 
 
