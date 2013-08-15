@@ -13,9 +13,6 @@
 		1343B7EB17BD859600E73497 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1343B7E917BD859600E73497 /* InfoPlist.strings */; };
 		1343B7ED17BD859600E73497 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B7EC17BD859600E73497 /* main.m */; };
 		1343B7F117BD859600E73497 /* CSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B7F017BD859600E73497 /* CSAppDelegate.m */; };
-		1343B7F317BD859600E73497 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1343B7F217BD859600E73497 /* Default.png */; };
-		1343B7F517BD859600E73497 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1343B7F417BD859600E73497 /* Default@2x.png */; };
-		1343B7F717BD859600E73497 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1343B7F617BD859600E73497 /* Default-568h@2x.png */; };
 		1343B7FF17BD859700E73497 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7FE17BD859700E73497 /* SenTestingKit.framework */; };
 		1343B80017BD859700E73497 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E017BD859600E73497 /* UIKit.framework */; };
 		1343B80117BD859700E73497 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E217BD859600E73497 /* Foundation.framework */; };
@@ -62,9 +59,6 @@
 		1343B7EE17BD859600E73497 /* CSMapperTestApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CSMapperTestApp-Prefix.pch"; sourceTree = "<group>"; };
 		1343B7EF17BD859600E73497 /* CSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSAppDelegate.h; sourceTree = "<group>"; };
 		1343B7F017BD859600E73497 /* CSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSAppDelegate.m; sourceTree = "<group>"; };
-		1343B7F217BD859600E73497 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		1343B7F417BD859600E73497 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		1343B7F617BD859600E73497 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1343B7FD17BD859700E73497 /* CSMapperTestAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CSMapperTestAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1343B7FE17BD859700E73497 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		1343B80617BD859700E73497 /* CSMapperTestAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CSMapperTestAppTests-Info.plist"; sourceTree = "<group>"; };
@@ -162,9 +156,6 @@
 				1343B7E917BD859600E73497 /* InfoPlist.strings */,
 				1343B7EC17BD859600E73497 /* main.m */,
 				1343B7EE17BD859600E73497 /* CSMapperTestApp-Prefix.pch */,
-				1343B7F217BD859600E73497 /* Default.png */,
-				1343B7F417BD859600E73497 /* Default@2x.png */,
-				1343B7F617BD859600E73497 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -292,9 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1343B7EB17BD859600E73497 /* InfoPlist.strings in Resources */,
-				1343B7F317BD859600E73497 /* Default.png in Resources */,
-				1343B7F517BD859600E73497 /* Default@2x.png in Resources */,
-				1343B7F717BD859600E73497 /* Default-568h@2x.png in Resources */,
 				1343B84A17BD85D200E73497 /* ParentOne.plist in Resources */,
 				1343B84C17BD85D200E73497 /* ParentTwo.plist in Resources */,
 				1343B84E17BD85D200E73497 /* TestTestObject.plist in Resources */,
