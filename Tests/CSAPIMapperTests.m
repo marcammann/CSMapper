@@ -73,7 +73,7 @@
 @end
 
 
-@implementation HGAPIMapperTests
+@implementation CSAPIMapperTests
 
 - (void)setUp
 {
@@ -120,8 +120,6 @@
 	
 	TestTestObject *o = [[TestTestObject alloc] init];
 	[o mapAttributesFromDictionary:data];
-	
-	NSLog(@"%@ / %@", o.testNumber, [o.testNumber class]);
 	
 	STAssertEqualObjects(o.testNumber, [NSNumber numberWithDouble:24], @"Type needs to be converted");
 }
@@ -205,7 +203,7 @@
 	TestTestObject *o = [[TestTestObject alloc] init];
 	
 	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"value", @"subSubValue",nil]];
-	STAssertEqualObjects(o.subSubValue, @"value", nil);
+    STAssertEqualObjects(o.subSubValue, @"value", nil);
 	
 	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:nil, @"subSubValue",nil]];
 	STAssertEqualObjects(o.subSubValue, @"subSubDefaultValue", nil);
