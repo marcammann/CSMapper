@@ -1,6 +1,6 @@
 //
 //  CSSubKeyMapper.h
-//  TMNGO
+//  CSMapper
 //
 //  Created by Anton Doudarev on 8/20/12.
 //  Copyright (c) 2012 HUGE Inc. All rights reserved.

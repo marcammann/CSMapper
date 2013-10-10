@@ -81,10 +81,12 @@
 	
 }
 
+
 - (void)tearDown
 {
 	[super tearDown];
 }
+
 
 - (void)testSimpleAssignment
 {
@@ -197,6 +199,7 @@
 	STAssertEqualObjects(@"parent_one", o.parentOne, @"ParentOne needs to be set");
 	STAssertEqualObjects(@"parent_two", o.parentTwo, @"ParentTwo needs to be set");
 }
+
 
 - (void)testCompoundSubtype
 {

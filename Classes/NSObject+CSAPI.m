@@ -138,20 +138,18 @@ static NSString * const ATLMappingDefaultKey = @"default";
 	}
 }
 
-static NSMutableDictionary * inMemoryCache = NULL;
 
+static NSMutableDictionary *mappingCache = NULL;
 
 /**
  Finds the .plist file for an entityKey
  */
 + (NSDictionary *)mappingForEntity:(NSString *)entityKey {
-
-    if (inMemoryCache == NULL) {
-        inMemoryCache = [[NSMutableDictionary alloc] init];
+    if (mappingCache == NULL) {
+        mappingCache = [[NSMutableDictionary alloc] init];
     }
-       
-    id cached = [inMemoryCache objectForKey:entityKey];
     
+    id cached = [mappingCache objectForKey:entityKey];
     if (cached) {
         return cached;
     }
@@ -172,9 +170,7 @@ static NSMutableDictionary * inMemoryCache = NULL;
 	}
 	
 	[mappingResult addEntriesFromDictionary:mapping];
-  
-    [inMemoryCache setObject:mappingResult forKey:entityKey];
-	
+    [mappingCache setObject:mappingResult forKey:entityKey];
 	return mappingResult;
 }
 
