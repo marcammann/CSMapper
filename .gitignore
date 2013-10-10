@@ -13,3 +13,8 @@ Doc/*
 *.mode1v3
 *.mode2v3
 xcuserdata
+
+.idea/*
+
+Pods/
+Pods/*

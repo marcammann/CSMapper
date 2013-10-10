@@ -1,0 +1,526 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1343B7E117BD859600E73497 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E017BD859600E73497 /* UIKit.framework */; };
+		1343B7E317BD859600E73497 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E217BD859600E73497 /* Foundation.framework */; };
+		1343B7E517BD859600E73497 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E417BD859600E73497 /* CoreGraphics.framework */; };
+		1343B7EB17BD859600E73497 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1343B7E917BD859600E73497 /* InfoPlist.strings */; };
+		1343B7ED17BD859600E73497 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B7EC17BD859600E73497 /* main.m */; };
+		1343B7F117BD859600E73497 /* CSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B7F017BD859600E73497 /* CSAppDelegate.m */; };
+		1343B7FF17BD859700E73497 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7FE17BD859700E73497 /* SenTestingKit.framework */; };
+		1343B80017BD859700E73497 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E017BD859600E73497 /* UIKit.framework */; };
+		1343B80117BD859700E73497 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1343B7E217BD859600E73497 /* Foundation.framework */; };
+		1343B80917BD859700E73497 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1343B80717BD859700E73497 /* InfoPlist.strings */; };
+		1343B84017BD85D200E73497 /* CSAPIBoolMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83117BD85D200E73497 /* CSAPIBoolMapper.m */; };
+		1343B84117BD85D200E73497 /* CSAPIBoolMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83117BD85D200E73497 /* CSAPIBoolMapper.m */; };
+		1343B84217BD85D200E73497 /* CSCountMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83317BD85D200E73497 /* CSCountMapper.m */; };
+		1343B84317BD85D200E73497 /* CSCountMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83317BD85D200E73497 /* CSCountMapper.m */; };
+		1343B84417BD85D200E73497 /* CSJoinMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83517BD85D200E73497 /* CSJoinMapper.m */; };
+		1343B84517BD85D200E73497 /* CSJoinMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83517BD85D200E73497 /* CSJoinMapper.m */; };
+		1343B84617BD85D200E73497 /* NSObject+CSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83817BD85D200E73497 /* NSObject+CSAPI.m */; };
+		1343B84717BD85D200E73497 /* NSObject+CSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83817BD85D200E73497 /* NSObject+CSAPI.m */; };
+		1343B84917BD85D200E73497 /* CSAPIMapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B83B17BD85D200E73497 /* CSAPIMapperTests.m */; };
+		1343B84A17BD85D200E73497 /* ParentOne.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83C17BD85D200E73497 /* ParentOne.plist */; };
+		1343B84B17BD85D200E73497 /* ParentOne.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83C17BD85D200E73497 /* ParentOne.plist */; };
+		1343B84C17BD85D200E73497 /* ParentTwo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83D17BD85D200E73497 /* ParentTwo.plist */; };
+		1343B84D17BD85D200E73497 /* ParentTwo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83D17BD85D200E73497 /* ParentTwo.plist */; };
+		1343B84E17BD85D200E73497 /* TestTestObject.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83E17BD85D200E73497 /* TestTestObject.plist */; };
+		1343B84F17BD85D200E73497 /* TestTestObject.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83E17BD85D200E73497 /* TestTestObject.plist */; };
+		1343B85017BD85D200E73497 /* TestTestSubtype.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83F17BD85D200E73497 /* TestTestSubtype.plist */; };
+		1343B85117BD85D200E73497 /* TestTestSubtype.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83F17BD85D200E73497 /* TestTestSubtype.plist */; };
+		1343B85417BD8BE500E73497 /* CSSubKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */; };
+		1343B85517BD8BE500E73497 /* CSSubKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1343B80217BD859700E73497 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1343B7D517BD859600E73497 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1343B7DC17BD859600E73497;
+			remoteInfo = CSMapperTestApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1343B7DD17BD859600E73497 /* CSMapperTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSMapperTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1343B7E017BD859600E73497 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1343B7E217BD859600E73497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1343B7E417BD859600E73497 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1343B7E817BD859600E73497 /* CSMapperTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CSMapperTestApp-Info.plist"; sourceTree = "<group>"; };
+		1343B7EA17BD859600E73497 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1343B7EC17BD859600E73497 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1343B7EE17BD859600E73497 /* CSMapperTestApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CSMapperTestApp-Prefix.pch"; sourceTree = "<group>"; };
+		1343B7EF17BD859600E73497 /* CSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSAppDelegate.h; sourceTree = "<group>"; };
+		1343B7F017BD859600E73497 /* CSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CSAppDelegate.m; sourceTree = "<group>"; };
+		1343B7FD17BD859700E73497 /* CSMapperTestAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CSMapperTestAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1343B7FE17BD859700E73497 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		1343B80617BD859700E73497 /* CSMapperTestAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CSMapperTestAppTests-Info.plist"; sourceTree = "<group>"; };
+		1343B80817BD859700E73497 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1343B83017BD85D200E73497 /* CSAPIBoolMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSAPIBoolMapper.h; sourceTree = "<group>"; };
+		1343B83117BD85D200E73497 /* CSAPIBoolMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSAPIBoolMapper.m; sourceTree = "<group>"; };
+		1343B83217BD85D200E73497 /* CSCountMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCountMapper.h; sourceTree = "<group>"; };
+		1343B83317BD85D200E73497 /* CSCountMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCountMapper.m; sourceTree = "<group>"; };
+		1343B83417BD85D200E73497 /* CSJoinMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSJoinMapper.h; sourceTree = "<group>"; };
+		1343B83517BD85D200E73497 /* CSJoinMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSJoinMapper.m; sourceTree = "<group>"; };
+		1343B83617BD85D200E73497 /* CSMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMapper.h; sourceTree = "<group>"; };
+		1343B83717BD85D200E73497 /* NSObject+CSAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CSAPI.h"; sourceTree = "<group>"; };
+		1343B83817BD85D200E73497 /* NSObject+CSAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CSAPI.m"; sourceTree = "<group>"; };
+		1343B83A17BD85D200E73497 /* CSAPIMapperTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSAPIMapperTests.h; sourceTree = "<group>"; };
+		1343B83B17BD85D200E73497 /* CSAPIMapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSAPIMapperTests.m; sourceTree = "<group>"; };
+		1343B83C17BD85D200E73497 /* ParentOne.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParentOne.plist; sourceTree = "<group>"; };
+		1343B83D17BD85D200E73497 /* ParentTwo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParentTwo.plist; sourceTree = "<group>"; };
+		1343B83E17BD85D200E73497 /* TestTestObject.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestTestObject.plist; sourceTree = "<group>"; };
+		1343B83F17BD85D200E73497 /* TestTestSubtype.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestTestSubtype.plist; sourceTree = "<group>"; };
+		1343B85217BD8BE500E73497 /* CSSubKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSubKeyMapper.h; sourceTree = "<group>"; };
+		1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSubKeyMapper.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1343B7DA17BD859600E73497 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1343B7E117BD859600E73497 /* UIKit.framework in Frameworks */,
+				1343B7E317BD859600E73497 /* Foundation.framework in Frameworks */,
+				1343B7E517BD859600E73497 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1343B7F917BD859700E73497 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1343B7FF17BD859700E73497 /* SenTestingKit.framework in Frameworks */,
+				1343B80017BD859700E73497 /* UIKit.framework in Frameworks */,
+				1343B80117BD859700E73497 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1343B7D417BD859600E73497 = {
+			isa = PBXGroup;
+			children = (
+				1343B82F17BD85D200E73497 /* Classes */,
+				1343B83917BD85D200E73497 /* Tests */,
+				1343B7E617BD859600E73497 /* CSMapperTestApp */,
+				1343B80417BD859700E73497 /* CSMapperTestAppTests */,
+				1343B80517BD859700E73497 /* Supporting Files */,
+				1343B7DF17BD859600E73497 /* Frameworks */,
+				1343B7DE17BD859600E73497 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1343B7DE17BD859600E73497 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1343B7DD17BD859600E73497 /* CSMapperTestApp.app */,
+				1343B7FD17BD859700E73497 /* CSMapperTestAppTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1343B7DF17BD859600E73497 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1343B7E017BD859600E73497 /* UIKit.framework */,
+				1343B7E217BD859600E73497 /* Foundation.framework */,
+				1343B7E417BD859600E73497 /* CoreGraphics.framework */,
+				1343B7FE17BD859700E73497 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1343B7E617BD859600E73497 /* CSMapperTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				1343B7EF17BD859600E73497 /* CSAppDelegate.h */,
+				1343B7F017BD859600E73497 /* CSAppDelegate.m */,
+				1343B7E717BD859600E73497 /* Supporting Files */,
+			);
+			path = CSMapperTestApp;
+			sourceTree = "<group>";
+		};
+		1343B7E717BD859600E73497 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1343B7E817BD859600E73497 /* CSMapperTestApp-Info.plist */,
+				1343B7E917BD859600E73497 /* InfoPlist.strings */,
+				1343B7EC17BD859600E73497 /* main.m */,
+				1343B7EE17BD859600E73497 /* CSMapperTestApp-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1343B80417BD859700E73497 /* CSMapperTestAppTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CSMapperTestAppTests;
+			sourceTree = "<group>";
+		};
+		1343B80517BD859700E73497 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1343B80617BD859700E73497 /* CSMapperTestAppTests-Info.plist */,
+				1343B80717BD859700E73497 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			path = CSMapperTestAppTests;
+			sourceTree = "<group>";
+		};
+		1343B82F17BD85D200E73497 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1343B85217BD8BE500E73497 /* CSSubKeyMapper.h */,
+				1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */,
+				1343B83017BD85D200E73497 /* CSAPIBoolMapper.h */,
+				1343B83117BD85D200E73497 /* CSAPIBoolMapper.m */,
+				1343B83217BD85D200E73497 /* CSCountMapper.h */,
+				1343B83317BD85D200E73497 /* CSCountMapper.m */,
+				1343B83417BD85D200E73497 /* CSJoinMapper.h */,
+				1343B83517BD85D200E73497 /* CSJoinMapper.m */,
+				1343B83617BD85D200E73497 /* CSMapper.h */,
+				1343B83717BD85D200E73497 /* NSObject+CSAPI.h */,
+				1343B83817BD85D200E73497 /* NSObject+CSAPI.m */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		1343B83917BD85D200E73497 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1343B83A17BD85D200E73497 /* CSAPIMapperTests.h */,
+				1343B83B17BD85D200E73497 /* CSAPIMapperTests.m */,
+				1343B83C17BD85D200E73497 /* ParentOne.plist */,
+				1343B83D17BD85D200E73497 /* ParentTwo.plist */,
+				1343B83E17BD85D200E73497 /* TestTestObject.plist */,
+				1343B83F17BD85D200E73497 /* TestTestSubtype.plist */,
+			);
+			name = Tests;
+			path = ../Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1343B7DC17BD859600E73497 /* CSMapperTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1343B80F17BD859700E73497 /* Build configuration list for PBXNativeTarget "CSMapperTestApp" */;
+			buildPhases = (
+				1343B7D917BD859600E73497 /* Sources */,
+				1343B7DA17BD859600E73497 /* Frameworks */,
+				1343B7DB17BD859600E73497 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CSMapperTestApp;
+			productName = CSMapperTestApp;
+			productReference = 1343B7DD17BD859600E73497 /* CSMapperTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1343B7FC17BD859700E73497 /* CSMapperTestAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1343B81217BD859700E73497 /* Build configuration list for PBXNativeTarget "CSMapperTestAppTests" */;
+			buildPhases = (
+				1343B7F817BD859700E73497 /* Sources */,
+				1343B7F917BD859700E73497 /* Frameworks */,
+				1343B7FA17BD859700E73497 /* Resources */,
+				1343B7FB17BD859700E73497 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1343B80317BD859700E73497 /* PBXTargetDependency */,
+			);
+			name = CSMapperTestAppTests;
+			productName = CSMapperTestAppTests;
+			productReference = 1343B7FD17BD859700E73497 /* CSMapperTestAppTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1343B7D517BD859600E73497 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CS;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Anton Doudarev";
+			};
+			buildConfigurationList = 1343B7D817BD859600E73497 /* Build configuration list for PBXProject "CSMapperTestApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1343B7D417BD859600E73497;
+			productRefGroup = 1343B7DE17BD859600E73497 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1343B7DC17BD859600E73497 /* CSMapperTestApp */,
+				1343B7FC17BD859700E73497 /* CSMapperTestAppTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1343B7DB17BD859600E73497 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1343B7EB17BD859600E73497 /* InfoPlist.strings in Resources */,
+				1343B84A17BD85D200E73497 /* ParentOne.plist in Resources */,
+				1343B84C17BD85D200E73497 /* ParentTwo.plist in Resources */,
+				1343B84E17BD85D200E73497 /* TestTestObject.plist in Resources */,
+				1343B85017BD85D200E73497 /* TestTestSubtype.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1343B7FA17BD859700E73497 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1343B80917BD859700E73497 /* InfoPlist.strings in Resources */,
+				1343B84B17BD85D200E73497 /* ParentOne.plist in Resources */,
+				1343B84D17BD85D200E73497 /* ParentTwo.plist in Resources */,
+				1343B84F17BD85D200E73497 /* TestTestObject.plist in Resources */,
+				1343B85117BD85D200E73497 /* TestTestSubtype.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1343B7FB17BD859700E73497 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1343B7D917BD859600E73497 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1343B7ED17BD859600E73497 /* main.m in Sources */,
+				1343B7F117BD859600E73497 /* CSAppDelegate.m in Sources */,
+				1343B84017BD85D200E73497 /* CSAPIBoolMapper.m in Sources */,
+				1343B84217BD85D200E73497 /* CSCountMapper.m in Sources */,
+				1343B84417BD85D200E73497 /* CSJoinMapper.m in Sources */,
+				1343B84617BD85D200E73497 /* NSObject+CSAPI.m in Sources */,
+				1343B85417BD8BE500E73497 /* CSSubKeyMapper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1343B7F817BD859700E73497 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1343B84117BD85D200E73497 /* CSAPIBoolMapper.m in Sources */,
+				1343B84317BD85D200E73497 /* CSCountMapper.m in Sources */,
+				1343B84517BD85D200E73497 /* CSJoinMapper.m in Sources */,
+				1343B84717BD85D200E73497 /* NSObject+CSAPI.m in Sources */,
+				1343B84917BD85D200E73497 /* CSAPIMapperTests.m in Sources */,
+				1343B85517BD8BE500E73497 /* CSSubKeyMapper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1343B80317BD859700E73497 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1343B7DC17BD859600E73497 /* CSMapperTestApp */;
+			targetProxy = 1343B80217BD859700E73497 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1343B7E917BD859600E73497 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1343B7EA17BD859600E73497 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1343B80717BD859700E73497 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1343B80817BD859700E73497 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1343B80D17BD859700E73497 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1343B80E17BD859700E73497 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1343B81017BD859700E73497 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CSMapperTestApp/CSMapperTestApp-Prefix.pch";
+				INFOPLIST_FILE = "CSMapperTestApp/CSMapperTestApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1343B81117BD859700E73497 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CSMapperTestApp/CSMapperTestApp-Prefix.pch";
+				INFOPLIST_FILE = "CSMapperTestApp/CSMapperTestApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		1343B81317BD859700E73497 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CSMapperTestApp.app/CSMapperTestApp";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CSMapperTestApp/CSMapperTestApp-Prefix.pch";
+				INFOPLIST_FILE = "CSMapperTestAppTests/CSMapperTestAppTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		1343B81417BD859700E73497 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CSMapperTestApp.app/CSMapperTestApp";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CSMapperTestApp/CSMapperTestApp-Prefix.pch";
+				INFOPLIST_FILE = "CSMapperTestAppTests/CSMapperTestAppTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1343B7D817BD859600E73497 /* Build configuration list for PBXProject "CSMapperTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1343B80D17BD859700E73497 /* Debug */,
+				1343B80E17BD859700E73497 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1343B80F17BD859700E73497 /* Build configuration list for PBXNativeTarget "CSMapperTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1343B81017BD859700E73497 /* Debug */,
+				1343B81117BD859700E73497 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1343B81217BD859700E73497 /* Build configuration list for PBXNativeTarget "CSMapperTestAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1343B81317BD859700E73497 /* Debug */,
+				1343B81417BD859700E73497 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1343B7D517BD859600E73497 /* Project object */;
+}

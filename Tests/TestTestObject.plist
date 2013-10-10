@@ -69,7 +69,7 @@
 	<key>subSubValue</key>
 	<dict>
 		<key>mapper</key>
-		<string>HGSubKeyMapper</string>
+		<string>CSSubKeyMapper</string>
 		<key>key</key>
 		<array>
 			<dict>

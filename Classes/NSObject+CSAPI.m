@@ -49,9 +49,15 @@ static NSString * const ATLMappingDefaultKey = @"default";
  the value gets sent to the mapper.
  */
 - (void)mapAttributesFromDictionary:(NSDictionary *)aDictionary {
-	NSString *class = [NSString stringWithFormat:@"%@", [self class]];
-	NSDictionary *mapping = [[self class] mappingForEntity:class];
+    NSString *mappingString = NSStringFromClass([self class]);
+
+	NSDictionary *mapping = [[self class] mappingForEntity:mappingString];
 	
+	if ([[mapping allKeys] count] == 0) {
+		mappingString = NSStringFromClass([self class]);
+		mapping = [[self class] mappingForEntity:mappingString];
+	}
+    
 	id key = nil;
 	NSDictionary *propertyMapping = nil;
 	id inputValue = nil;
@@ -79,7 +85,7 @@ static NSString * const ATLMappingDefaultKey = @"default";
 					inputValue = [propertyMapping objectForKey:ATLMappingDefaultKey];
 					if (inputValue == nil) {
 						continue;
-					}
+					}           
 				}
 			} else if ([key isKindOfClass:[NSArray class]]) {
 				inputValue = [NSMutableArray arrayWithCapacity:[key count]];
@@ -133,14 +139,25 @@ static NSString * const ATLMappingDefaultKey = @"default";
 }
 
 
+static NSMutableDictionary *mappingCache = NULL;
+
 /**
  Finds the .plist file for an entityKey
  */
 + (NSDictionary *)mappingForEntity:(NSString *)entityKey {
+    if (mappingCache == NULL) {
+        mappingCache = [[NSMutableDictionary alloc] init];
+    }
+    
+    id cached = [mappingCache objectForKey:entityKey];
+    if (cached) {
+        return cached;
+    }
+
 	NSDictionary *mapping = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:entityKey ofType:@"plist"]];
 	
 	id parentEntityMapping = [mapping objectForKey:ATLMappingParentKey];
-	NSArray *parents;
+	NSArray *parents = [NSArray array];
 	if ([parentEntityMapping isKindOfClass:[NSArray class]]) {
 		parents = parentEntityMapping;
 	} else if (parentEntityMapping != nil) {
@@ -153,7 +170,7 @@ static NSString * const ATLMappingDefaultKey = @"default";
 	}
 	
 	[mappingResult addEntriesFromDictionary:mapping];
-	
+    [mappingCache setObject:mappingResult forKey:entityKey];
 	return mappingResult;
 }
 
