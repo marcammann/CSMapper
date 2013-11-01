@@ -1,3 +1,7 @@
+#(DOCUMENTATION WORK IN PROGRESS)
+
+
+
 ## Description
 
 In the world of mapping JSON, the API may change at any time and CSMapper is the simplest solution to this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environemnt by mapping of KVO compliant objects, to KVO compliant objects via simple plist configuration files.
@@ -402,13 +406,13 @@ Notice that we use the __mapper__ key to define the object that will be transfor
 		<key>key</key>
 		<string>hire_date</string>
 		<key>mapper</key>
-		<string>NSDateAPIMapper</string>
+		<string>APIDateMapper</string>
 	</dict>
 </plist>
 
 ```
 
-__NSDateAPIMapper.h__
+__APIDateMapper.h__
 
 Class conforms to the __CSMapper__ protocol
 
@@ -416,18 +420,18 @@ Class conforms to the __CSMapper__ protocol
 #import <Foundation/Foundation.h>
 #import "CSMapper.h"
 
-@interface NSDateAPIMapper : NSObject <CSMapper>
+@interface APIDateMapper : NSObject <CSMapper>
 @end
 
 ```
-__NSDateAPIMapper.m__
+__APIDateMapper.m__
 
-This class creates a static instance for a and __NSDateFormatter__ in memory, and transforms the __NSDate__ value accordingly, then returns an __NSDate__ value. This is handy as a single point of formatting for an __NSDate__ returned by the server, which can modified with ease if the response changes.
+This class creates a static instance for a and __NSDateFormatter__ in memory, and transforms the __NSDate__ value accordingly, then returns an __NSDate__ value. This this is handy as a single point of formatting for an __NSDate__ returned by the server, which can modified with ease if the response changes.
 
 ```
-#import "NSDateAPIMapper.h"
+#import "APIDateMapper.h"
 
-@implementation NSDateAPIMapper
+@implementation APIDateMapper
 
 static NSDateFormatter *dateFormatter = nil;
 
@@ -487,7 +491,7 @@ __JSON Response__
 ```
 __Employee.plist__
 
-Notice that we use the __mapper__ key to define the object that will be transforming our NSDate
+Notice that we use the __mapper__ key to define an array of objects that will undergoe transformation.
 
 ```
 <plist version="1.0">
@@ -529,7 +533,7 @@ Class conforms to the __CSMapper__ protocol
 ```
 __APIMetaStringMapper.m__
 
-This class creates a static instance for a and __NSDateFormatter__ in memory, and transforms the __NSDate__ value accordingly, then returns an __NSDate__ value. This is handy as a single point of formatting for an __NSDate__ returned by the server, which can modified with ease if the response changes.
+This class receives an array as the __inputValue__. It is key to understand that the order of the __inputValue__ array maps specifically to the order of the keys defined in the plist.
 
 ```
 #import "APIMetaStringMapper.h"
@@ -540,24 +544,35 @@ static NSDateFormatter *dateFormatter = nil;
 
 + (id)transformValue:(id)inputValue {
 	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-		
-		dateFormatter.locale = enUSPOSIXLocale;
-		dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
-        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:sszzzz";
+		dateFormatter = [NSDateFormatter new];
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+        dateFormatter.dateStyle = NSDateFormatterNoStyle;
 	}
 	
-	NSDate *retval;
-	NSError *error;
-	[dateFormatter getObjectValue:&retval forString:inputValue range:nil error:&error];
-	
-	return retval;
+    NSMutableString *returnString = [[NSMutableString alloc] init];
+    NSString *slash = @"    /   ";
+    
+    for (id object in inputValue) {
+        if ([object isEqual:[inputValue lastObject]]) {
+            [returnString appendString:[dateFormatter stringFromDate:object]];
+        } else {
+            [returnString appendString:object];
+            [returnString appendString:slash];
+        }
+    }
+    
+    return returnString;
 }
 
 @end
 
 ```
+
+
+__Result__
+
+As simple as that, will transform the three inputvalues into a single string and assign it to the __metaDisplayString__ property;
+
 
 
 
