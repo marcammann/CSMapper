@@ -4,20 +4,22 @@
 
 ## Description
 
-In the world of mapping JSON, the API may change at any time and CSMapper is the simplest solution to this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environemnt by mapping of KVO compliant objects, to KVO compliant objects via simple plist configuration files.
+In the world of mapping JSON to our data model, the API may change at any time, and CSMapper is the simplest solution to solve this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environment by mapping of KVO compliant objects, to KVO compliant objects via simple plist configuration files. 
 
 
 ## Features
 
-* Extremelty fast, flexible, and lightweight on memory consumption
-* Map KVO compliant objects, to KVO compliant objects via plist configuration
-* Mapping Inheritance
-* Flexible runtime transformations
+* Extremelty Fast, Flexible, and Lightweight
+* Maps KVO compliant objects via plist configuration
+* Supports Mapping Inheritance
+* Flexible Runtime Transformations
+* Compound Property Mappings
 
 
 # Using CSMapper
 
 ##Basic Use
+
 Let's look at a basic example below with a class definition, a JSON response, and a plist mapping file associated with the class.
 
 ### Example
@@ -236,7 +238,7 @@ Programmer:
 
 # Types
 
-By default the CSMapper is capable of detecting and mapping native datatypes such as NSStrings, NSDates, NSNumbers, NSDictionaries, and NSArrays without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes.
+By default the CSMapper is capable of detecting and mapping native datatypes such as ```NSString```, ```NSDate```, ```NSNumber```, ```NSDictionary```, and ```NSArray``` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__ section below in the case a __BOOL__ value is to be mapped.
 
 
 ## Forced Conversion
@@ -371,7 +373,7 @@ From time to time, classes may need to pre-process, and transform, single, or mu
 * Appending multiple string values together based on the responce to preprocessing values displayed, (i.e scrolling table view cell with label text comprised of 3 attributes)
 
 
-CSMapper gives you the ability to create an class that abides by the __CSMapper__ protocol to transform, return, and map a value on the fly
+CSMapper gives you the ability to create an class that abides by the ```CSMapper``` protocol to transform, return, and map a value on the fly
 
 ## Single Value Transform
 
@@ -397,7 +399,7 @@ __JSON Response__
 ```
 __Employee.plist__
 
-Notice that we use the __mapper__ key to define the object that will be transforming our NSDate
+Notice that we use the __mapper__ key to define the object that will be transforming our ```NSDate```
 
 ```
 <plist version="1.0">
@@ -426,7 +428,7 @@ Class conforms to the __CSMapper__ protocol
 ```
 __APIDateMapper.m__
 
-This class creates a static instance for a and __NSDateFormatter__ in memory, and transforms the __NSDate__ value accordingly, then returns an __NSDate__ value. This this is handy as a single point of formatting for an __NSDate__ returned by the server, which can modified with ease if the response changes.
+This class creates a static instance for a and ```NSDateFormatter``` in memory, and transforms the ```NSDate``` value accordingly, then returns an ```NSDate``` value. This this is handy as a single point of formatting for an  ```NSDate``` returned by the server, which can modified with ease if the response changes.
 
 ```
 #import "APIDateMapper.h"
@@ -467,7 +469,7 @@ From time to time we need to string multiple values together for display purpose
 
 ###Example
 
-For this example, imagine we are scrolling through a list, and the display data displays name, age, and hire date, in short form, on the same line. If we were to attempt to create the display text while scrolling, this could cause unneccesary overhead on the device as each value would need to be processed for each cell in the list as it is about to be displayed.
+For this example, imagine we are scrolling through a list, and the display data displays name, age, and hire date, in short form, as a single sting. If we were to attempt to create the display text while scrolling, this could cause unneccesary overhead on the device as each value would need to be processed for each cell in the list as it is about to be displayed.
 
 __Person.h__
 
@@ -491,7 +493,7 @@ __JSON Response__
 ```
 __Employee.plist__
 
-Notice that we use the __mapper__ key to define an array of objects that will undergoe transformation.
+Notice that we use the __mapper__ key to define an array of objects that will undergo transformation.
 
 ```
 <plist version="1.0">
@@ -521,7 +523,7 @@ Notice that we use the __mapper__ key to define an array of objects that will un
 
 __APIMetaStringMapper.h__
 
-Class conforms to the __CSMapper__ protocol
+Class conforms to the ```CSMapper``` protocol
 
 ```
 #import <Foundation/Foundation.h>
@@ -568,28 +570,68 @@ static NSDateFormatter *dateFormatter = nil;
 
 ```
 
+__Result__
+
+As simple as that, will transform the three inputvalues into a single string and assign it to the __metaDisplayString__ property.
+
+
+## Compound Attributes
+
+From time to time, one may need a compound attribute value. May it be a compound identifier, or whatever the need may be, CSMapper provides a mapper class ```CSJoinMapper``` which allows you to do just that. In the following scenario, let us pretend we need a compount value of the 
+
+###Example
+
+__Person.h__
+
+Notice the __Person__ class contains contactInfo of type __ContactInfo__
+
+```
+@interface Person : NSObject
+@property (nonatomic, strong) NSString *compoundIdentifier;
+@end
+```
+
+__JSON Response__
+
+```
+{
+	'employee_identifier': '123456789',
+	'employee_age' : 28
+}
+
+```
+__Employee.plist__
+
+Notice that we use the __mapper__ key to define an array of objects that will undergo transformation.
+
+```
+<plist version="1.0">
+	<key>compoundIdentifier</key>
+	<dict>
+		<key>mapper</key>
+		<string>CSJoinMapper</string>
+		<key>key</key>
+		<array>
+			<dict>
+				<key>key</key>
+				<string>employee_identifier</string>
+			</dict>
+			<dict>
+				<key>key</key>
+				<string>employee_age</string>
+			</dict>
+		</array>
+	</dict>
+</plist>
+
+```
 
 __Result__
 
-As simple as that, will transform the three inputvalues into a single string and assign it to the __metaDisplayString__ property;
+The resulting value for the compoundIdentifier will be "123456789:28"
 
 
 
+## Boolean Attributes
 
-
-
-
-
-
-
-
-# Compound Attributes
-
-
-
-
-
-
-
-
-
+As an API developer we generally can run into many different boolean response values, such as __on__, __1__, __true__, or even __TRUE__. When mapping a boolean value for an object, apply the ```CSAPIBoolMapper``` just as you would in the __Single Transform Example__ above
