@@ -72,7 +72,7 @@ Person *newPersonInstance = [[Person alloc] init];
 # Inheritance
 
 While the single mapping is great for simple use cases, inheritance is always something that comes to mind with these kind of things.
-CSMapper solves this problem by specifying a special key, called __*\_\_parent\_\_*__ which is either a String or an Array of Strings.
+CSMapper solves this problem by specifying a special key, called __*\_\_parent\_\_*__ which is either an `NString` or an `NSArray` of Strings.
 What this does is, it takes the Parent mapping and applies it before the actual Mapping takes place.
 
 
@@ -116,7 +116,7 @@ __Person.plist__
 
 __Programmer.plist__
 
-Notice the __\_\_parent\_\___ key definition for the __Person__ class.
+Notice the __*\_\_parent\_\_*__ key definition for the __Person__ class.
 
 ```
 <plist version="1.0">
@@ -145,7 +145,7 @@ Programmer:
 ##Multiple Inheritance
 ###Example
 
-Now, if __\_\_parent\_\___ key in the property is an array, multiple inheritance is used.
+Now, if __*\_\_parent\_\_*__ key in the property is an array, multiple inheritance is used.
 
 __Resource.h__
 
@@ -220,17 +220,18 @@ __Programmer.plist__
 ```
 __Result__
 
-In this case, the order matters in which the parents appear, hence an Array property in the plist, not an unordered Set. Notice in this example that the order of the __\_\_parent\_\___ key mapping contains __Person__ at the first index, then __Resource__ at the second index. Resource takes precedence here which implies that the __name__ property value on the object gets the value of __resource_name__. 
+In this case, the order matters in which the parents appear, hence an Array property in the plist, not an unordered Set. Notice in this example that the order of the __*\_\_parent\_\_*__ key mapping contains `Person` at the first index, then `Resource` at the second index. Resource takes precedence here which implies that the *__name__* property value on the object gets the value of *__resource_name__*. 
 
-Here comes a tricky part though, internally, both get set. That means, that CSMapper sets the value for __name__ to the JSON value of __person_name__ and then to the value of __resource_name__. If __resource_name__ is not found in the dictionary, the value of __name__ is preserved because nil values don't get set at the moment. This is a short coming of this approach that might change.
+Here comes a tricky part though, internally, both get set. That means, that CSMapper sets the value for *__name__* to the JSON value of *__person_name__* and then to the value of *__resource_name__*. If *__resource_name__* is not found in the dictionary, the value of *__name__* is preserved because nil values don't get set at the moment. This is a short coming of this approach that might change.
 
 So, the mapping for the Programmer object will look like this:
 
 ```
 Programmer:
 	yearsService -> years_service
-	name -> person_name # if resource_name does not exists
-	name -> resource_name # if resource_name exists, else it will remain the person_name value if it exists
+	name -> person_name # If resource_name does not exists
+	name -> resource_name #  If resource_name exists, 
+						     else it will remain the person_name value if it exists
 	age -> person_age
 	programmingSkills -> programming_skills
 
@@ -238,7 +239,7 @@ Programmer:
 
 # Types
 
-By default the CSMapper is capable of detecting and mapping native datatypes such as ```NSString```, ```NSDate```, ```NSNumber```, ```NSDictionary```, and ```NSArray``` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__ section below in the case a __BOOL__ value is to be mapped.
+By default the CSMapper is capable of detecting and mapping native datatypes such as `NSString`, `NSDate`, `NSNumber`, `NSDictionary`, and `NSArray` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__  [#Mappers] section below in the case a `BOOL` value is to be mapped.
 
 
 ## Forced Conversion
