@@ -239,7 +239,7 @@ Programmer:
 
 # Types
 
-By default the CSMapper is capable of detecting and mapping native datatypes such as `NSString`, `NSDate`, `NSNumber`, `NSDictionary`, and `NSArray` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__  [Mappers](#Mappers) section below in the case a `BOOL` value is to be mapped.
+By default the CSMapper is capable of detecting and mapping native datatypes such as `NSString`, `NSDate`, `NSNumber`, `NSDictionary`, and `NSArray` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__  [Mappers](../README.md#Mappers) section below in the case a `BOOL` value is to be mapped.
 
 
 ## Forced Conversion
