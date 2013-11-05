@@ -72,7 +72,7 @@ Person *newPersonInstance = [[Person alloc] init];
 # Inheritance
 
 While the single mapping is great for simple use cases, inheritance is always something that comes to mind with these kind of things.
-CSMapper solves this problem by specifying a special key, called __*\_\_parent\_\_ *__ which is either a String or an Array of Strings.
+CSMapper solves this problem by specifying a special key, called __*\_\_parent\_\_*__ which is either a String or an Array of Strings.
 What this does is, it takes the Parent mapping and applies it before the actual Mapping takes place.
 
 
