@@ -1,28 +1,31 @@
-#(DOCUMENTATION WORK IN PROGRESS)
-
-
-
-## Description
+#CSMapper
 
 In the world of mapping JSON to our data model, the API may change at any time, and CSMapper is the simplest solution to solve this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environment by mapping of KVO compliant objects, to KVO compliant objects via simple plist configuration files. 
 
 
-## Features
+#Features
 
 * Extremelty Fast, Flexible, and Lightweight
-* Maps KVO compliant objects via plist configuration
+* Maps KVO compliant objects to JSON, via plist configuration
+* Supports Defaulting Properties Non-Existant in a JSON Response
 * Supports Mapping Inheritance
 * Flexible Runtime Transformations
 * Compound Property Mappings
 
 
-# Using CSMapper
+#Basic Use
 
-##Basic Use
+The basic concept behind CSMapper is a three steps :
+
+1. Define your model class
+2. Define a plist with the same name as the model class
+3. Define model property to JSON property mappings in the plist. 
+
+If custom parse time values need to be generated based on multiple JSON return values, mappers can be used to transform multiple values into a single value via `CSMapper` protocol.
+
+### Standard Example
 
 Let's look at a basic example below with a class definition, a JSON response, and a plist mapping file associated with the class.
-
-### Example
 
 
 __Person.h__
@@ -31,6 +34,7 @@ __Person.h__
 @interface Person : NSObject
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSNumber *age;
+@property (nonatomic, strong) NSNumber *coolnessValue;
 @end
 
 ```
@@ -38,8 +42,9 @@ __JSON Response__
 
 ```
 {
-	'person_name': 'nameValue',
-	'person_age' : 28
+	'person_name' : 'nameValue',
+	'person_age'  : 28,
+	'person_coolness_value : 42
 }
 
 ```
@@ -57,9 +62,16 @@ __Person.plist__
 		<key>key</key>
 		<string>person_age</string>
 	</dict>
+	<key>coolnessValue</key>
+	<dict>
+		<key>key</key>
+		<string>person_coolness_value</string>
+	</dict>
 </plist>
 
 ```
+
+__Result__
 
 Once the response is received it's as easy as the following line of code to map all the values accordingly to the `Person` model class. 
 
@@ -69,16 +81,61 @@ Person *newPersonInstance = [[Person alloc] init];
 
 ```
 
-# Inheritance
+### Default Values
+
+Let's pretend that in the previous example, the JSON did not return a value for the __person_coolness_value__. Once the result gets parsed, the resulting `Person` instance would receiver a `nil` value for the __coolnessValue__ property. CSMapper allows the developer to define default values for specific per property by setting the *__default__* key within the plist mapping.
+
+__JSON Response__
+
+```
+{
+	'person_name' : 'nameValue',
+	'person_age'  : 28
+}
+
+```
+__Person.plist__
+
+Notice that we added the *__default__* key for the __coolnessValueKey__
+
+```
+<plist version="1.0">
+	<key>name</key>
+	<dict>
+		<key>key</key>
+		<string>person_name</string>
+	</dict>
+	<key>age</key>
+	<dict>
+		<key>key</key>
+		<string>person_age</string>
+	</dict>
+	<key>coolnessValue</key>
+	<dict>
+		<key>key</key>
+		<string>person_coolness_value</string>
+		<key>default</key>
+		<string>10</string>
+	</dict>
+</plist>
+
+```
+
+__Result__
+
+Once the result is parsed, since we set the *__default__* value in the mapping, the resulting `Person` instance would receiver an `NSNumber` typed value of 10 for the __coolnessValue__ property.
+
+
+## Inheritance
 
 While the single mapping is great for simple use cases, inheritance is always something that comes to mind with these kind of things.
-CSMapper solves this problem by specifying a special key, called __*\_\_parent\_\_*__ which is either an `NString` or an `NSArray` of Strings.
+CSMapper solves this problem by specifying a special key, called __*\_\_parent\_\_*__ which is either an `NSString` or an `NSArray` of Strings.
 What this does is, it takes the Parent mapping and applies it before the actual Mapping takes place.
 
 
-##Single Inheritance
+###Single Inheritance
 
-###Example 
+####Example 
 __Person.h__
 
 ``` 
@@ -116,7 +173,7 @@ __Person.plist__
 
 __Programmer.plist__
 
-Notice the __*\_\_parent\_\_*__ key definition for the __Person__ class.
+Notice the __*\_\_parent\_\_*__ key definition for the `Person` class.
 
 ```
 <plist version="1.0">
@@ -142,8 +199,8 @@ Programmer:
 	
 ```
 
-##Multiple Inheritance
-###Example
+###Multiple Inheritance
+####Example
 
 Now, if __*\_\_parent\_\_*__ key in the property is an array, multiple inheritance is used.
 
@@ -237,16 +294,16 @@ Programmer:
 
 ```
 
-# Types
+## Types
 
-By default the CSMapper is capable of detecting and mapping native datatypes such as `NSString`, `NSDate`, `NSNumber`, `NSDictionary`, and `NSArray` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__  [Mappers](../README.md#Mappers) section below in the case a `BOOL` value is to be mapped.
+By default the CSMapper is capable of detecting and mapping native datatypes such as `NSString`, `NSDate`, `NSNumber`, `NSDictionary`, and `NSArray` without explicit plist configuration on the fly, yet allows the developer to override them explicitely, even newly defined to custom datatypes. Please refer to the __Mappers__ section below in the case a `BOOL` value is to be mapped.
 
 
-## Forced Conversion
+### Forced Conversion
 
-Sometimes there is reason to store a returned NSNumber value as a string, and CSMapper allows you that flexibility. By defining the __type__ property within the mappings we can override how the object is going to be store in our model. Let's look at a simple example.
+Sometimes there is reason to store a returned NSNumber value as a string, and CSMapper allows you that flexibility. By defining the *__type__* property within the mappings we can override how the object is going to be store in our model. Let's look at a simple example.
 
-### Example
+#### Example
 
 __Person.h__
 
@@ -259,7 +316,7 @@ __Person.h__
 
 __JSON Response__
 
-Notice the age property in the JSON is returned as an NSNumber, but we want to store it as an NSString.
+Notice the age property in the JSON is returned as an `NSNumber`, but we want to store it as an `NSString`.
 
 ```
 {
@@ -269,7 +326,7 @@ Notice the age property in the JSON is returned as an NSNumber, but we want to s
 ```
 __Person.plist__
 
-By defining the __type__ key for the age property to NSString, CSMapper will explicitely converted it while mapping.
+By defining the *__type__* key for the age property to `NSString`, CSMapper will explicitely converted it while mapping.
 
 ```
 <plist version="1.0">
@@ -286,14 +343,14 @@ By defining the __type__ key for the age property to NSString, CSMapper will exp
 
 __Result__
 
-As simple as that, CSMapper will map the results as an NSString to the Person object.
+As simple as that, CSMapper will map the results as an `NSString` to the `Person` object.
 
 
-##Custom Types
+###Custom Types
 
-Sometimes we defined a custom class as a property of a class. And there is a chance that you may receive a JSON response which contains a dictionary for the custom custom object object property defined in your model. CSMapper gives us the flexibility to use __type__ property within the mappings to directly map sub dictionaries to your model class. Let's look at an example
+Sometimes we defined a custom class as a property of a class. And there is a chance that you may receive a JSON response which contains a dictionary for the custom custom object object property defined in your model. CSMapper gives us the flexibility to use *__type__* property within the mappings to directly map sub dictionaries to your model class. Let's look at an example
 
-### Example
+####Example
 
 __ContactInfo.h__
 
@@ -305,7 +362,7 @@ __ContactInfo.h__
 
 __Person.h__
 
-Notice the __Person__ class contains contactInfo of type __ContactInfo__
+Notice the `Person` class contains contactInfo of type `ContactInfo`
 
 ```
 @interface Person : NSObject
@@ -316,7 +373,7 @@ Notice the __Person__ class contains contactInfo of type __ContactInfo__
 ```
 __JSON Response__
 
-The JSON returned a dictionary name __contact_info__, which should be stored as a __ContactInfo__ class type.
+The JSON returned a dictionary name *__contact_info__*, which should be stored as a `ContactInfo` class type.
 
 ```
 {
@@ -342,7 +399,7 @@ __ContactInfo.plist__
 
 __Person.plist__
 
-Observe the __type__ key below for the __contactInfo__ for the __Person__ is set to __ContactInfo__ type.
+Observe the *__type__* key below for the __contactInfo__ for the `Person` is set to `ContactInfo` type.
 
 ```
 <plist version="1.0">
@@ -363,9 +420,9 @@ Observe the __type__ key below for the __contactInfo__ for the __Person__ is set
 ```
 __Result__
 
-As simple as that, after mapping the attributes, the __Person__ object will have __contactInfo__ set to a mapped object of type __ContactInfo__.
+As simple as that, after mapping the attributes, the `Person` object will have __contactInfo__ set to a mapped object of type `ContactInfo`.
 
-# Mappers
+##Mappers
 
 From time to time, classes may need to pre-process, and transform, single, or multiple JSON values into a custom value for storage. There are many usecases for pre-processing:
 
@@ -374,13 +431,13 @@ From time to time, classes may need to pre-process, and transform, single, or mu
 * Appending multiple string values together based on the responce to preprocessing values displayed, (i.e scrolling table view cell with label text comprised of 3 attributes)
 
 
-CSMapper gives you the ability to create an class that abides by the ```CSMapper``` protocol to transform, return, and map a value on the fly
+CSMapper gives you the ability to create an class that abides by the `CSMapper` protocol to transform, return, and map a value on the fly
 
-## Single Value Transform
+###Single Value Transform
 
-Let's look at an example that can be applied to an NSDate with a single value being transformed to a specific format returned form the server.
+Let's look at an example that can be applied to an `NSDate` with a single value being transformed to a specific format returned form the server.
 
-###Example
+####Example
 
 __Person.h__
 
@@ -400,7 +457,7 @@ __JSON Response__
 ```
 __Employee.plist__
 
-Notice that we use the __mapper__ key to define the object that will be transforming our ```NSDate```
+Notice that we use the *__mapper__* key to define the object that will be transforming our ```NSDate```
 
 ```
 <plist version="1.0">
@@ -417,7 +474,7 @@ Notice that we use the __mapper__ key to define the object that will be transfor
 
 __APIDateMapper.h__
 
-Class conforms to the __CSMapper__ protocol
+Class conforms to the `CSMapper` protocol
 
 ```
 #import <Foundation/Foundation.h>
@@ -429,7 +486,7 @@ Class conforms to the __CSMapper__ protocol
 ```
 __APIDateMapper.m__
 
-This class creates a static instance for a and ```NSDateFormatter``` in memory, and transforms the ```NSDate``` value accordingly, then returns an ```NSDate``` value. This this is handy as a single point of formatting for an  ```NSDate``` returned by the server, which can modified with ease if the response changes.
+This class creates a static instance for a and `NSDateFormatter` in memory, and transforms the `NSDate` value accordingly, then returns an `NSDate` value. This this is handy as a single point of formatting for an  ```NSDate``` returned by the server, which can modified with ease if the response changes.
 
 ```
 #import "APIDateMapper.h"
@@ -461,20 +518,20 @@ static NSDateFormatter *dateFormatter = nil;
 
 __Result__
 
-In this example, by setting the __mapper__ key in the plist for the __hireDate__, CSMapper will automatically call the __transformValue:__ method, and assign the returned value to the __hireDate__ property of the __Person__ instance.
+In this example, by setting the *__mapper__* key in the plist for the __hireDate__, CSMapper will automatically call the `transformValue:(id)inputValue` method, and assign the returned value to the __hireDate__ property of the `Person` instance.
 
 
-## Multi Value Transform
+###Multi Value Transform
 
-From time to time we need to string multiple values together for display purposes or pre-processing for a specific property. By creating a class that abides by the __CSMapper__ protocol we can pass multiple values for a transformation.
+From time to time we need to string multiple values together for display purposes or pre-processing for a specific property. By creating a class that abides by the `CSMapper` protocol we can pass multiple values for a transformation.
 
-###Example
+####Example
 
 For this example, imagine we are scrolling through a list, and the display data displays name, age, and hire date, in short form, as a single sting. If we were to attempt to create the display text while scrolling, this could cause unneccesary overhead on the device as each value would need to be processed for each cell in the list as it is about to be displayed.
 
 __Person.h__
 
-Notice the __Person__ class contains contactInfo of type __ContactInfo__
+Notice the `Person` class contains an `NSString` that represents this custom value that we need to transform from the returned JSON
 
 ```
 @interface Person : NSObject
@@ -494,7 +551,7 @@ __JSON Response__
 ```
 __Employee.plist__
 
-Notice that we use the __mapper__ key to define an array of objects that will undergo transformation.
+Notice that we use the *__mapper__* key to define an array of objects that will undergo transformation.
 
 ```
 <plist version="1.0">
@@ -524,7 +581,7 @@ Notice that we use the __mapper__ key to define an array of objects that will un
 
 __APIMetaStringMapper.h__
 
-Class conforms to the ```CSMapper``` protocol
+Class conforms to the `CSMapper` protocol
 
 ```
 #import <Foundation/Foundation.h>
@@ -576,15 +633,15 @@ __Result__
 As simple as that, will transform the three inputvalues into a single string and assign it to the __metaDisplayString__ property.
 
 
-## Compound Attributes
+###Compound Attributes
 
-From time to time, one may need a compound attribute value. May it be a compound identifier, or whatever the need may be, CSMapper provides a mapper class ```CSJoinMapper``` which allows you to do just that. In the following scenario, let us pretend we need a compount value of the 
+From time to time, one may need a compound attribute value. May it be a compound identifier, or whatever the need may be, CSMapper provides a mapper class `CSJoinMapper` which allows you to do just that. In the following scenario, let us pretend we need a compount value of the 
 
-###Example
+####Example
 
 __Person.h__
 
-Notice the __Person__ class contains contactInfo of type __ContactInfo__
+Notice the `Person` class contains an `NSString` typed __compoundIdentifier__ property.
 
 ```
 @interface Person : NSObject
@@ -603,7 +660,7 @@ __JSON Response__
 ```
 __Employee.plist__
 
-Notice that we use the __mapper__ key to define an array of objects that will undergo transformation.
+Notice that we use the *__mapper__* key to defines an array of objects that will undergoe compound attribute transformation.
 
 ```
 <plist version="1.0">
@@ -631,8 +688,45 @@ __Result__
 
 The resulting value for the compoundIdentifier will be "123456789:28"
 
+###Boolean Attributes
+
+As an API developer we generally can run into many different boolean value responses:
+
+* on
+* 1
+* true
+* TRUE 
+
+When mapping a boolean value for an object, apply the `CSAPIBoolMapper` just as you would in the __Single Transform Example__ above.
 
 
-## Boolean Attributes
+## Testing
+The project includes XCTestCases
 
-As an API developer we generally can run into many different boolean response values, such as __on__, __1__, __true__, or even __TRUE__. When mapping a boolean value for an object, apply the ```CSAPIBoolMapper``` just as you would in the __Single Transform Example__ above
+## Installation
+### Cocoapods
+
+Edit your podfile
+
+    edit Podfile
+    pod 'CSMapper', :git => 'https://github.com/marcammann/CSMapper.git' 
+
+Now you can install CSMapper
+    
+    pod install
+
+#### Include framework
+    #import <NSObject+CSMapper.h>
+
+Learn more at [CocoaPods](http://cocoapods.org).
+
+## Requirements
+
+* MacOS X 10.7 +
+* iOS 5.0 +
+
+##Authors
+
+* Marc Ammann (marc@codesofa.com)
+* Anton Doudarev (anton.doudarev@gmail.com)
+
