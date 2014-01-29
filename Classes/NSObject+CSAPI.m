@@ -24,6 +24,14 @@ static NSString * const CSMappingDefaultKey = @"default";
 
 @implementation NSObject (CSAPI)
 
+// Auto-mapped Initializer
+- (id)initWithDictionary:(NSDictionary *)aDictionary {
+    self = [self init];
+    if (self) {
+        [self mapAttributesFromDictionary:aDictionary];
+    }
+    return  self;
+}
 
 /**
  Maps data from aDictionary according to a given .plist file whose name matches
@@ -133,11 +141,10 @@ static NSString * const CSMappingDefaultKey = @"default";
 				}
 			}
             
+            //check to see if there is a type for the objects in an array
             arraySubTypeValue =  [propertyMapping objectForKey:CSMappingArraySubTypeKey];
-            
-            
+        
             if ([inputValue isKindOfClass:[NSArray class]] && arraySubTypeValue) {
-                
                 forcedClassString = arraySubTypeValue;
                 forcedClass = NSClassFromString(arraySubTypeValue);
                 
@@ -151,7 +158,6 @@ static NSString * const CSMappingDefaultKey = @"default";
                 outputValue = newSubObjectArray;
             }
 
-			
 			if (mapperClass && mapperClass) {
 				outputValue = [(id<CSMapper>)mapperClass transformValue:inputValue];
 			}

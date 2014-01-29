@@ -724,9 +724,3 @@ Learn more at [CocoaPods](http://cocoapods.org).
 
 * MacOS X 10.7 +
 * iOS 5.0 +
-
-##Authors
-
-* Marc Ammann (marc@codesofa.com)
-* Anton Doudarev (anton.doudarev@gmail.com)
-
