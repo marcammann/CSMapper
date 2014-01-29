@@ -28,7 +28,7 @@ static NSString * const CSMappingDefaultKey = @"default";
 - (id)initWithDictionary:(NSDictionary *)aDictionary {
     self = [self init];
     if (self) {
-        [self mapAttributesFromDictionary:aDictionary];
+        [self mapAttributesWithDictionary:aDictionary];
     }
     return  self;
 }
@@ -57,7 +57,7 @@ static NSString * const CSMappingDefaultKey = @"default";
  If you specify 'type' and 'mapper', the 'type' is applied first before
  the value gets sent to the mapper.
  */
-- (void)mapAttributesFromDictionary:(NSDictionary *)aDictionary {
+- (void)mapAttributesWithDictionary:(NSDictionary *)aDictionary {
     NSString *mappingString = NSStringFromClass([self class]);
     
 	NSDictionary *mapping = [[self class] mappingForEntity:mappingString];
@@ -104,15 +104,12 @@ static NSString * const CSMappingDefaultKey = @"default";
 					if ([subKey isKindOfClass:[NSDictionary class]]) {
 						subValue = [aDictionary valueForKeyPath:[subKey valueForKey:CSMappingKeyKey]];
 						
-                        // subValue = [aDictionary valueForKeyPath:[subKey valueForKey:ATLMappingKeyKey]];
-						
 						if (subValue == nil) {
 							subValue = [subKey valueForKey:CSMappingDefaultKey];
 							[inputValue addObject:subValue];
 						} else {
 							[inputValue addObject:subValue];
 						}
-						
 					} else {
 						subValue = [aDictionary valueForKeyPath:subKey];
 						
@@ -136,7 +133,7 @@ static NSString * const CSMappingDefaultKey = @"default";
 				} else {
 					// Try to map unknown type with same technique.
 					id newValue = [[forcedClass alloc] init];
-					[newValue mapAttributesFromDictionary:inputValue];
+					[newValue mapAttributesWithDictionary:inputValue];
 					outputValue = newValue;
 				}
 			}
@@ -152,7 +149,7 @@ static NSString * const CSMappingDefaultKey = @"default";
                 
                 for (id subobjectDict in inputValue) {
                     id newValue = [[forcedClass alloc] init];
-                    [newValue mapAttributesFromDictionary:subobjectDict];
+                    [newValue mapAttributesWithDictionary:subobjectDict];
                     [newSubObjectArray addObject:newValue];
                 }
                 outputValue = newSubObjectArray;
@@ -305,7 +302,7 @@ static NSMutableDictionary *mappingCache = NULL;
 		} else {
 			// Try to map unknown type with same technique.
 			id newValue = [[forcedClass alloc] init];
-			[newValue mapAttributesFromDictionary:inputValue];
+			[newValue mapAttributesWithDictionary:inputValue];
 			outputValue = newValue;
 		}
 	}
