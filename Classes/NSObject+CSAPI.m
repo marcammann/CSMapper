@@ -18,7 +18,7 @@
 static NSString * const CSMappingParentKey = @"__parent__";
 static NSString * const CSMappingKeyKey = @"key";
 static NSString * const CSMappingClassKey = @"type";
-static NSString * const CSMappingArraySubTypeKey = @"arraySubtype";
+static NSString * const CSMappingArraySubTypeKey = @"array_subtype";
 static NSString * const CSMappingMapperKey = @"mapper";
 static NSString * const CSMappingDefaultKey = @"default";
 

@@ -81,7 +81,7 @@
 						  nil];
 	
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesFromDictionary:data];
+	[o mapAttributesWithDictionary:data];
 	
 	STAssertEqualObjects(o.testSimple, @"Testbar", @"Data needs to match after setting attributes");
 }
@@ -94,7 +94,7 @@
 						  nil];
 	
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesFromDictionary:data];
+	[o mapAttributesWithDictionary:data];
 	
 	STAssertNil(o.notExisting, @"Maping doesn't exist for not_existing, notExisting should be nil");
 }
@@ -107,7 +107,7 @@
 						  nil];
 	
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesFromDictionary:data];
+	[o mapAttributesWithDictionary:data];
 	
 	STAssertEqualObjects(o.testNumber, [NSNumber numberWithDouble:24], @"Type needs to be converted");
 }
@@ -120,7 +120,7 @@
 						  nil];
 	
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesFromDictionary:data];
+	[o mapAttributesWithDictionary:data];
 	
 	STAssertEqualObjects(o.testComplex, [NSDate dateWithTimeIntervalSince1970:24], @"Type needs to be converted");
 }
@@ -136,7 +136,7 @@
 						  nil];
 	
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesFromDictionary:data];
+	[o mapAttributesWithDictionary:data];
 	
 	STAssertEqualObjects(o.testSubtype.testTrivial, @"Trivial", @"Type needs to be converted to subtype");
 }
@@ -146,19 +146,19 @@
 {	
 	TestTestObject *o = [[TestTestObject alloc] init];
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"true",@"true_bool",@"false",@"false_bool",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"true",@"true_bool",@"false",@"false_bool",nil]];
 	STAssertTrue(o.trueBool, @"'true'");
 	STAssertFalse(o.falseBool, @"'false'");
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"on",@"true_bool",@"off",@"false_bool",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"on",@"true_bool",@"off",@"false_bool",nil]];
 	STAssertTrue(o.trueBool, @"'on'");
 	STAssertFalse(o.falseBool, @"'off'");
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"1",@"true_bool",@"0",@"false_bool",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"1",@"true_bool",@"0",@"false_bool",nil]];
 	STAssertTrue(o.trueBool, @"'1'");
 	STAssertFalse(o.falseBool, @"'0'");
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"true_bool",[NSNumber numberWithBool:NO],@"false_bool",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"true_bool",[NSNumber numberWithBool:NO],@"false_bool",nil]];
 	STAssertTrue(o.trueBool, @"'NSNumber: 1'");
 	STAssertFalse(o.falseBool, @"'NSNumber: 0'");
 }
@@ -168,7 +168,7 @@
 {
 	TestTestObject *o = [[TestTestObject alloc] init];
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"first",@"part_one",@"last",@"part_two",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"first",@"part_one",@"last",@"part_two",nil]];
 	STAssertEqualObjects(@"first:last", o.testCompound, @"Compound Value");
 }
 
@@ -178,10 +178,10 @@
 	TestTestObject *o = [[TestTestObject alloc] init];
 	
 	// Check that ParentTwo has precedence
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"parent_one",@"parent_one_both",@"parent_two",@"parent_two_both",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"parent_one",@"parent_one_both",@"parent_two",@"parent_two_both",nil]];
 	STAssertEqualObjects(@"parent_two", o.parentBoth, @"ParentTwo has precedence");
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"parent_one",@"parent_one_only",@"parent_two",@"parent_two_only",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"parent_one",@"parent_one_only",@"parent_two",@"parent_two_only",nil]];
 	STAssertEqualObjects(@"parent_one", o.parentOne, @"ParentOne needs to be set");
 	STAssertEqualObjects(@"parent_two", o.parentTwo, @"ParentTwo needs to be set");
 }
@@ -191,17 +191,17 @@
 {
 	TestTestObject *o = [[TestTestObject alloc] init];
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"value", @"subSubValue",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"value", @"subSubValue",nil]];
     STAssertEqualObjects(o.subSubValue, @"value", nil);
 	
-	[o mapAttributesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:nil, @"subSubValue",nil]];
+	[o mapAttributesWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:nil, @"subSubValue",nil]];
 	STAssertEqualObjects(o.subSubValue, @"subSubDefaultValue", nil);
 }
 
 - (void)testArraySubtype
 {
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesFromDictionary:@{@"test_subarray" : @[ @{@"test_trivial" : @"Test1"}, @{@"test_trivial" : @"Test2"}, @{@"test_trivial" : @"Test3"}] }];
+	[o mapAttributesWithDictionary:@{@"test_subarray" : @[ @{@"test_trivial" : @"Test1"}, @{@"test_trivial" : @"Test2"}, @{@"test_trivial" : @"Test3"}] }];
     STAssertEqualObjects([o.subArrayValue objectAtIndex:0], @"Test1", nil);
     STAssertEqualObjects([o.subArrayValue objectAtIndex:1], @"Test2", nil);
     STAssertEqualObjects([o.subArrayValue objectAtIndex:2], @"Test3", nil);

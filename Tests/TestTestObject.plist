@@ -88,7 +88,7 @@
 		<string>NSArray</string>
 		<key>key</key>
 		<string>test_subarray</string>
-		<key>arraySubtype</key>
+		<key>array_subtype</key>
 		<string>TestTestSubtype</string>
 	</dict>
 </dict>
