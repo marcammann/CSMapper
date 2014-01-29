@@ -82,5 +82,14 @@
 			</dict>
 		</array>
 	</dict>
+	<key>subArrayValue</key>
+	<dict>
+		<key>type</key>
+		<string>NSArray</string>
+		<key>key</key>
+		<string>test_subarray</string>
+		<key>arraySubtype</key>
+		<string>TestTestSubtype</string>
+	</dict>
 </dict>
 </plist>

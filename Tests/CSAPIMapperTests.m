@@ -51,25 +51,11 @@
 @property (nonatomic, readwrite) BOOL trueBool;
 @property (nonatomic, readwrite) BOOL falseBool;
 @property (nonatomic, strong) NSString *subSubValue;
+@property (nonatomic, strong) NSArray *subArrayValue;
 @end
 
 
 @implementation TestTestObject
-
-@synthesize testSimple;
-@synthesize testCount;
-@synthesize testCompound;
-@synthesize notExisting;
-@synthesize testNumber;
-@synthesize testComplex;
-@synthesize testSubtype;
-@synthesize trueBool;
-@synthesize falseBool;
-@synthesize parentBoth;
-@synthesize parentOne;
-@synthesize parentTwo;
-@synthesize subSubValue;
-
 @end
 
 
@@ -212,6 +198,13 @@
 	STAssertEqualObjects(o.subSubValue, @"subSubDefaultValue", nil);
 }
 
-
+- (void)testArraySubtype
+{
+	TestTestObject *o = [[TestTestObject alloc] init];
+	[o mapAttributesFromDictionary:@{@"test_subarray" : @[ @{@"test_trivial" : @"Test1"}, @{@"test_trivial" : @"Test2"}, @{@"test_trivial" : @"Test3"}] }];
+    STAssertEqualObjects([o.subArrayValue objectAtIndex:0], @"Test1", nil);
+    STAssertEqualObjects([o.subArrayValue objectAtIndex:1], @"Test2", nil);
+    STAssertEqualObjects([o.subArrayValue objectAtIndex:2], @"Test3", nil);
+}
 
 @end

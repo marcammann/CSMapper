@@ -1,16 +1,16 @@
 #CSMapper
 
-In the world of mapping JSON to our data model, the API may change at any time, and CSMapper is the simplest solution to solve this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environment by mapping of KVO compliant objects, to KVO compliant objects via simple plist configuration files. 
+In the world of mapping data to our data model, the data may change at any time, and CSMapper is the simplest solution to solve this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environment by mapping dictionaries of KVO compliant objects, to KVO compliant objects via simple plist configuration files. 
 
 
 #Features
 
-* Extremelty Fast, Flexible, and Lightweight
-* Maps KVO compliant objects to JSON, via plist configuration
-* Supports Defaulting Properties Non-Existant in a JSON Response
-* Supports Mapping Inheritance
-* Flexible Runtime Transformations
-* Compound Property Mappings
+* Flexible and lightweight
+* Maps KVO compliant objects to `NSDictionary` objects, via plist configuration
+* Supports default values for missing properties
+* Supports mapping inheritance
+* Flexible runtime transformations
+* Compound property mappings
 
 
 #Basic Use
@@ -19,13 +19,13 @@ The basic concept behind CSMapper is a three steps :
 
 1. Define your model class
 2. Define a plist with the same name as the model class
-3. Define model property to JSON property mappings in the plist. 
+3. Define model property to `NSDictionary` property mappings in the plist. 
 
-If custom parse time values need to be generated based on multiple JSON return values, mappers can be used to transform multiple values into a single value via `CSMapper` protocol.
+If custom parse time values need to be generated based on multiple `NSDictionary` return values, mappers can be used to transform multiple values into a single value via `CSMapper` protocol.
 
 ### Standard Example
 
-Let's look at a basic example below with a class definition, a JSON response, and a plist mapping file associated with the class.
+Let's look at a basic example below with a class definition, a `NSDictionary` response, and a plist mapping file associated with the class.
 
 
 __Person.h__
@@ -34,17 +34,17 @@ __Person.h__
 @interface Person : NSObject
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSNumber *age;
-@property (nonatomic, strong) NSNumber *coolnessValue;
+@property (nonatomic, strong) NSNumber *height;
 @end
 
 ```
-__JSON Response__
+__NSDictionary__
 
 ```
 {
 	'person_name' : 'nameValue',
 	'person_age'  : 28,
-	'person_coolness_value : 42
+	'person_height: 54
 }
 
 ```
@@ -62,10 +62,10 @@ __Person.plist__
 		<key>key</key>
 		<string>person_age</string>
 	</dict>
-	<key>coolnessValue</key>
+	<key>height</key>
 	<dict>
 		<key>key</key>
-		<string>person_coolness_value</string>
+		<string>person_height</string>
 	</dict>
 </plist>
 
@@ -77,15 +77,15 @@ Once the response is received it's as easy as the following line of code to map 
 
 ```
 Person *newPersonInstance = [[Person alloc] init];
-[newPersonInstance mapAttributesFromDictionary:JSONResponse];
+[newPersonInstance mapAttributesFromDictionary:dictionaryResponse];
 
 ```
 
 ### Default Values
 
-Let's pretend that in the previous example, the JSON did not return a value for the __person_coolness_value__. Once the result gets parsed, the resulting `Person` instance would receiver a `nil` value for the __coolnessValue__ property. CSMapper allows the developer to define default values for specific per property by setting the *__default__* key within the plist mapping.
+Let's pretend that in the previous example, the `NSDictionary` did not contain a value for the __person_height__. Once the result gets parsed, the resulting `Person` instance would receiver a `nil` value for the __height__ property. CSMapper allows the developer to define default values for specific per property by setting the *__default__* key within the plist mapping.
 
-__JSON Response__
+__NSDictionary__
 
 ```
 {
@@ -96,7 +96,7 @@ __JSON Response__
 ```
 __Person.plist__
 
-Notice that we added the *__default__* key for the __coolnessValueKey__
+Notice that we added the *__default__* key for the __height__
 
 ```
 <plist version="1.0">
@@ -110,10 +110,10 @@ Notice that we added the *__default__* key for the __coolnessValueKey__
 		<key>key</key>
 		<string>person_age</string>
 	</dict>
-	<key>coolnessValue</key>
+	<key>height</key>
 	<dict>
 		<key>key</key>
-		<string>person_coolness_value</string>
+		<string>person_height</string>
 		<key>default</key>
 		<string>10</string>
 	</dict>
@@ -123,7 +123,7 @@ Notice that we added the *__default__* key for the __coolnessValueKey__
 
 __Result__
 
-Once the result is parsed, since we set the *__default__* value in the mapping, the resulting `Person` instance would receiver an `NSNumber` typed value of 10 for the __coolnessValue__ property.
+Once the result is parsed, since we set the *__default__* value in the mapping, the resulting `Person` instance would receiver an `NSNumber` typed value of 10 for the __height__ property. This is encouraged for all properties as of now, CSMapper does not detect the receiver of the data. So a UUID can be a string or an integer in a bit case.
 
 
 ## Inheritance
@@ -279,7 +279,7 @@ __Result__
 
 In this case, the order matters in which the parents appear, hence an Array property in the plist, not an unordered Set. Notice in this example that the order of the __*\_\_parent\_\_*__ key mapping contains `Person` at the first index, then `Resource` at the second index. Resource takes precedence here which implies that the *__name__* property value on the object gets the value of *__resource_name__*. 
 
-Here comes a tricky part though, internally, both get set. That means, that CSMapper sets the value for *__name__* to the JSON value of *__person_name__* and then to the value of *__resource_name__*. If *__resource_name__* is not found in the dictionary, the value of *__name__* is preserved because nil values don't get set at the moment. This is a short coming of this approach that might change.
+Here comes a tricky part though, internally, both get set. That means, that CSMapper sets the value for *__name__* to the `NSDictionaty` value of *__person_name__* and then to the value of *__resource_name__*. If *__resource_name__* is not found in the dictionary, the value of *__name__* is preserved because nil values don't get set at the moment. This is a short coming of this approach that might change.
 
 So, the mapping for the Programmer object will look like this:
 
@@ -314,9 +314,9 @@ __Person.h__
 
 ```
 
-__JSON Response__
+__NSDictionary__
 
-Notice the age property in the JSON is returned as an `NSNumber`, but we want to store it as an `NSString`.
+Notice the age property in the `NSDictionary` is returned as an `NSNumber`, but we want to store it as an `NSString`.
 
 ```
 {
@@ -348,7 +348,7 @@ As simple as that, CSMapper will map the results as an `NSString` to the `Person
 
 ###Custom Types
 
-Sometimes we defined a custom class as a property of a class. And there is a chance that you may receive a JSON response which contains a dictionary for the custom custom object object property defined in your model. CSMapper gives us the flexibility to use *__type__* property within the mappings to directly map sub dictionaries to your model class. Let's look at an example
+Sometimes we defined a custom class as a property of a class. And there is a chance that you may receive a `NSDictionary` which contains a dictionary for the custom custom object object property defined in your model. CSMapper gives us the flexibility to use *__type__* property within the mappings to directly map sub dictionaries to your model class. Let's look at an example
 
 ####Example
 
@@ -371,9 +371,9 @@ Notice the `Person` class contains contactInfo of type `ContactInfo`
 @end
 
 ```
-__JSON Response__
+__NSDictionary__
 
-The JSON returned a dictionary name *__contact_info__*, which should be stored as a `ContactInfo` class type.
+The `NSDictionary` returned an `NSDictionary` named *__contact_info__*, which should be stored as a `ContactInfo` class type.
 
 ```
 {
@@ -424,7 +424,7 @@ As simple as that, after mapping the attributes, the `Person` object will have _
 
 ##Mappers
 
-From time to time, classes may need to pre-process, and transform, single, or multiple JSON values into a custom value for storage. There are many usecases for pre-processing:
+When class properties need to pre-processing, or tranformation, from a single, or multiple `NSDictionary` values into a custom value for storage. There are many usecases for pre-processing:
 
 * Dealing with dates, which can be returned in many different formats from the server
 * Setting binary flags on the model object based on string values returned from the server
@@ -447,7 +447,7 @@ __Person.h__
 @end
 
 ```
-__JSON Response__
+__NSDictionary__
 
 ```
 {
@@ -486,7 +486,7 @@ Class conforms to the `CSMapper` protocol
 ```
 __APIDateMapper.m__
 
-This class creates a static instance for a and `NSDateFormatter` in memory, and transforms the `NSDate` value accordingly, then returns an `NSDate` value. This this is handy as a single point of formatting for an  ```NSDate``` returned by the server, which can modified with ease if the response changes.
+This class creates a static instance for a and `NSDateFormatter` in memory, and transforms the `NSDate` value accordingly, then returns an `NSDate` value. This is handy as a single point of formatting for an  ```NSDate``` returned by the server, which can modified with ease if the response changes.
 
 ```
 #import "APIDateMapper.h"
@@ -523,7 +523,7 @@ In this example, by setting the *__mapper__* key in the plist for the __hireDate
 
 ###Multi Value Transform
 
-From time to time we need to string multiple values together for display purposes or pre-processing for a specific property. By creating a class that abides by the `CSMapper` protocol we can pass multiple values for a transformation.
+When there is a need to string multiple values together for display purposes or pre-processing for a specific property. By creating a class that abides by the `CSMapper` protocol we can pass multiple values for a transformation.
 
 ####Example
 
@@ -531,7 +531,7 @@ For this example, imagine we are scrolling through a list, and the display data 
 
 __Person.h__
 
-Notice the `Person` class contains an `NSString` that represents this custom value that we need to transform from the returned JSON
+Notice the `Person` class contains an `NSString` that represents this custom value that we need to transform from the returned `NSDictionary`
 
 ```
 @interface Person : NSObject
@@ -539,7 +539,7 @@ Notice the `Person` class contains an `NSString` that represents this custom val
 @end
 ```
 
-__JSON Response__
+NSDictionary` __Response__
 
 ```
 {
@@ -635,7 +635,7 @@ As simple as that, will transform the three inputvalues into a single string and
 
 ###Compound Attributes
 
-From time to time, one may need a compound attribute value. May it be a compound identifier, or whatever the need may be, CSMapper provides a mapper class `CSJoinMapper` which allows you to do just that. In the following scenario, let us pretend we need a compount value of the 
+When a compound attribute value is applicable, may it be a compound identifier, or comparable example, CSMapper provides a mapper class `CSJoinMapper` which allows you to do just that. In the following scenario, let us pretend we need a compount value of the 
 
 ####Example
 
@@ -649,7 +649,7 @@ Notice the `Person` class contains an `NSString` typed __compoundIdentifier__ pr
 @end
 ```
 
-__JSON Response__
+NSDictionary` __Response__
 
 ```
 {

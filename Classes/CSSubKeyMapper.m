@@ -11,9 +11,7 @@
 @implementation CSSubKeyMapper
 
 + (id)transformValue:(id)inputValue {
-	
 	NSString *contentMetaString = [inputValue objectAtIndex:0];
-	
 	return contentMetaString;
 }
 
