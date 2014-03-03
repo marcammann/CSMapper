@@ -15,14 +15,23 @@
 #import "CSCountMapper.h"
 
 
-static NSString * const ATLMappingParentKey = @"__parent__";
-static NSString * const ATLMappingKeyKey = @"key";
-static NSString * const ATLMappingClassKey = @"type";
-static NSString * const ATLMappingMapperKey = @"mapper";
-static NSString * const ATLMappingDefaultKey = @"default";
+static NSString * const CSMappingParentKey = @"__parent__";
+static NSString * const CSMappingKeyKey = @"key";
+static NSString * const CSMappingClassKey = @"type";
+static NSString * const CSMappingArraySubTypeKey = @"array_subtype";
+static NSString * const CSMappingMapperKey = @"mapper";
+static NSString * const CSMappingDefaultKey = @"default";
 
 @implementation NSObject (CSAPI)
 
+// Auto-mapped Initializer
+- (id)initWithDictionary:(NSDictionary *)aDictionary {
+    self = [self init];
+    if (self) {
+        [self mapAttributesWithDictionary:aDictionary];
+    }
+    return  self;
+}
 
 /**
  Maps data from aDictionary according to a given .plist file whose name matches
@@ -48,9 +57,9 @@ static NSString * const ATLMappingDefaultKey = @"default";
  If you specify 'type' and 'mapper', the 'type' is applied first before
  the value gets sent to the mapper.
  */
-- (void)mapAttributesFromDictionary:(NSDictionary *)aDictionary {
+- (void)mapAttributesWithDictionary:(NSDictionary *)aDictionary {
     NSString *mappingString = NSStringFromClass([self class]);
-
+    
 	NSDictionary *mapping = [[self class] mappingForEntity:mappingString];
 	
 	if ([[mapping allKeys] count] == 0) {
@@ -63,44 +72,44 @@ static NSString * const ATLMappingDefaultKey = @"default";
 	id inputValue = nil;
 	id outputValue = nil;
 	id subValue = nil;
+    id arraySubTypeValue = nil;
 	Class forcedClass = nil;
 	NSString *forcedClassString = nil;
 	Class mapperClass = nil;
 	SEL selector = nil;
 	
 	for (NSString *propertyName in mapping) {
-		if (![propertyName isEqualToString:ATLMappingParentKey]) {
+		if (![propertyName isEqualToString:CSMappingParentKey]) {
 			propertyMapping = [mapping objectForKey:propertyName];
 			
-			forcedClassString = [propertyMapping objectForKey:ATLMappingClassKey];
+			forcedClassString = [propertyMapping objectForKey:CSMappingClassKey];
 			forcedClass = NSClassFromString(forcedClassString);
-			mapperClass = NSClassFromString([propertyMapping objectForKey:ATLMappingMapperKey]);
+			mapperClass = NSClassFromString([propertyMapping objectForKey:CSMappingMapperKey]);
 			
-			key = [propertyMapping objectForKey:ATLMappingKeyKey];
+			key = [propertyMapping objectForKey:CSMappingKeyKey];
 			// If key is array, try the fetch all values for input value
 			if ([key isKindOfClass:[NSString class]]) {
 				inputValue = [aDictionary valueForKeyPath:key];
 				if (inputValue == nil) {
 					// Try getting the default.
-					inputValue = [propertyMapping objectForKey:ATLMappingDefaultKey];
+					inputValue = [propertyMapping objectForKey:CSMappingDefaultKey];
 					if (inputValue == nil) {
 						continue;
-					}           
+					}
 				}
 			} else if ([key isKindOfClass:[NSArray class]]) {
 				inputValue = [NSMutableArray arrayWithCapacity:[key count]];
 				for (id subKey in key) {
 					
 					if ([subKey isKindOfClass:[NSDictionary class]]) {
-						subValue = [aDictionary valueForKeyPath:[subKey valueForKey:ATLMappingKeyKey]];
+						subValue = [aDictionary valueForKeyPath:[subKey valueForKey:CSMappingKeyKey]];
 						
 						if (subValue == nil) {
-							subValue = [subKey valueForKey:ATLMappingDefaultKey];
+							subValue = [subKey valueForKey:CSMappingDefaultKey];
 							[inputValue addObject:subValue];
 						} else {
 							[inputValue addObject:subValue];
 						}
-						
 					} else {
 						subValue = [aDictionary valueForKeyPath:subKey];
 						
@@ -124,11 +133,28 @@ static NSString * const ATLMappingDefaultKey = @"default";
 				} else {
 					// Try to map unknown type with same technique.
 					id newValue = [[forcedClass alloc] init];
-					[newValue mapAttributesFromDictionary:inputValue];
+					[newValue mapAttributesWithDictionary:inputValue];
 					outputValue = newValue;
 				}
 			}
-			
+            
+            //check to see if there is a type for the objects in an array
+            arraySubTypeValue =  [propertyMapping objectForKey:CSMappingArraySubTypeKey];
+        
+            if ([inputValue isKindOfClass:[NSArray class]] && arraySubTypeValue) {
+                forcedClassString = arraySubTypeValue;
+                forcedClass = NSClassFromString(arraySubTypeValue);
+                
+                NSMutableArray *newSubObjectArray = [NSMutableArray new];
+                
+                for (id subobjectDict in inputValue) {
+                    id newValue = [[forcedClass alloc] init];
+                    [newValue mapAttributesWithDictionary:subobjectDict];
+                    [newSubObjectArray addObject:newValue];
+                }
+                outputValue = newSubObjectArray;
+            }
+
 			if (mapperClass && mapperClass) {
 				outputValue = [(id<CSMapper>)mapperClass transformValue:inputValue];
 			}
@@ -153,10 +179,10 @@ static NSMutableDictionary *mappingCache = NULL;
     if (cached) {
         return cached;
     }
-
+    
 	NSDictionary *mapping = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:entityKey ofType:@"plist"]];
 	
-	id parentEntityMapping = [mapping objectForKey:ATLMappingParentKey];
+	id parentEntityMapping = [mapping objectForKey:CSMappingParentKey];
 	NSArray *parents = [NSArray array];
 	if ([parentEntityMapping isKindOfClass:[NSArray class]]) {
 		parents = parentEntityMapping;
@@ -225,17 +251,17 @@ static NSMutableDictionary *mappingCache = NULL;
 	
 	propertyMapping = [mapping objectForKey:propertyName];
 	
-	forcedClassString = [propertyMapping objectForKey:ATLMappingClassKey];
+	forcedClassString = [propertyMapping objectForKey:CSMappingClassKey];
 	forcedClass = NSClassFromString(forcedClassString);
-	mapperClass = NSClassFromString([propertyMapping objectForKey:ATLMappingMapperKey]);
+	mapperClass = NSClassFromString([propertyMapping objectForKey:CSMappingMapperKey]);
 	
-	key = [propertyMapping objectForKey:ATLMappingKeyKey];
+	key = [propertyMapping objectForKey:CSMappingKeyKey];
 	// If key is array, try the fetch all values for input value
 	if ([key isKindOfClass:[NSString class]]) {
 		inputValue = [aDictionary valueForKeyPath:key];
 		if (inputValue == nil) {
 			// Try getting the default.
-			inputValue = [propertyMapping objectForKey:ATLMappingDefaultKey];
+			inputValue = [propertyMapping objectForKey:CSMappingDefaultKey];
 			if (inputValue == nil) {
 				return nil;
 			}
@@ -245,10 +271,10 @@ static NSMutableDictionary *mappingCache = NULL;
 		for (id subKey in key) {
 			
 			if ([subKey isKindOfClass:[NSDictionary class]]) {
-				subValue = [aDictionary valueForKeyPath:[subKey valueForKey:ATLMappingKeyKey]];
+				subValue = [aDictionary valueForKeyPath:[subKey valueForKey:CSMappingKeyKey]];
 				
 				if (subValue == nil) {
-					subValue = [subKey valueForKey:ATLMappingDefaultKey];
+					subValue = [subKey valueForKey:CSMappingDefaultKey];
 					[inputValue addObject:subValue];
 				} else {
 					[inputValue addObject:subValue];
@@ -256,7 +282,6 @@ static NSMutableDictionary *mappingCache = NULL;
 				
 			} else {
 				subValue = [aDictionary valueForKeyPath:subKey];
-				
 				if (subValue != nil) {
 					[inputValue addObject:subValue];
 				}
@@ -277,7 +302,7 @@ static NSMutableDictionary *mappingCache = NULL;
 		} else {
 			// Try to map unknown type with same technique.
 			id newValue = [[forcedClass alloc] init];
-			[newValue mapAttributesFromDictionary:inputValue];
+			[newValue mapAttributesWithDictionary:inputValue];
 			outputValue = newValue;
 		}
 	}

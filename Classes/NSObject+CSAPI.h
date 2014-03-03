@@ -12,7 +12,8 @@
 
 @interface NSObject (CSAPI)
 
-- (void)mapAttributesFromDictionary:(NSDictionary *)aDictionary;
+- (id)initWithDictionary:(NSDictionary *)aDictionary;
+- (void)mapAttributesWithDictionary:(NSDictionary *)aDictionary;
 + (NSDictionary *)mappingForEntity:(NSString *)entityKey;
 + (id)valueForProperty:(NSString *)key fromDictionary:(NSDictionary *)aDictionary;
 
