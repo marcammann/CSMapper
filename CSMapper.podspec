@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CSMapper"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "CSMapper helps mapping arbitrary dictionaries to objects."
   s.homepage     = "https://github.com/marcammann/CSMapper"
 
