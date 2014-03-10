@@ -36,6 +36,8 @@
 		1343B85117BD85D200E73497 /* TestTestSubtype.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1343B83F17BD85D200E73497 /* TestTestSubtype.plist */; };
 		1343B85417BD8BE500E73497 /* CSSubKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */; };
 		1343B85517BD8BE500E73497 /* CSSubKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */; };
+		63109CD418CD94F6005644F9 /* TestJsonMappedObject.json in Resources */ = {isa = PBXBuildFile; fileRef = 63109CD318CD94F6005644F9 /* TestJsonMappedObject.json */; };
+		63109CD518CD94F6005644F9 /* TestJsonMappedObject.json in Resources */ = {isa = PBXBuildFile; fileRef = 63109CD318CD94F6005644F9 /* TestJsonMappedObject.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,7 @@
 		1343B83F17BD85D200E73497 /* TestTestSubtype.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestTestSubtype.plist; sourceTree = "<group>"; };
 		1343B85217BD8BE500E73497 /* CSSubKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSubKeyMapper.h; sourceTree = "<group>"; };
 		1343B85317BD8BE500E73497 /* CSSubKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSubKeyMapper.m; sourceTree = "<group>"; };
+		63109CD318CD94F6005644F9 /* TestJsonMappedObject.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestJsonMappedObject.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +202,7 @@
 		1343B83917BD85D200E73497 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63109CD318CD94F6005644F9 /* TestJsonMappedObject.json */,
 				1343B83A17BD85D200E73497 /* CSAPIMapperTests.h */,
 				1343B83B17BD85D200E73497 /* CSAPIMapperTests.m */,
 				1343B83C17BD85D200E73497 /* ParentOne.plist */,
@@ -285,6 +289,7 @@
 				1343B7EB17BD859600E73497 /* InfoPlist.strings in Resources */,
 				1343B84A17BD85D200E73497 /* ParentOne.plist in Resources */,
 				1343B84C17BD85D200E73497 /* ParentTwo.plist in Resources */,
+				63109CD418CD94F6005644F9 /* TestJsonMappedObject.json in Resources */,
 				1343B84E17BD85D200E73497 /* TestTestObject.plist in Resources */,
 				1343B85017BD85D200E73497 /* TestTestSubtype.plist in Resources */,
 			);
@@ -297,6 +302,7 @@
 				1343B80917BD859700E73497 /* InfoPlist.strings in Resources */,
 				1343B84B17BD85D200E73497 /* ParentOne.plist in Resources */,
 				1343B84D17BD85D200E73497 /* ParentTwo.plist in Resources */,
+				63109CD518CD94F6005644F9 /* TestJsonMappedObject.json in Resources */,
 				1343B84F17BD85D200E73497 /* TestTestObject.plist in Resources */,
 				1343B85117BD85D200E73497 /* TestTestSubtype.plist in Resources */,
 			);

@@ -59,6 +59,18 @@
 @end
 
 
+@interface TestJsonMappedObject : NSObject
+
+@property (nonatomic, strong) NSString *aValue;
+@property (nonatomic, readwrite) BOOL aBoolValue;
+
+@end
+
+
+@implementation TestJsonMappedObject
+@end
+
+
 @implementation CSAPIMapperTests
 
 - (void)setUp
@@ -198,13 +210,60 @@
 	STAssertEqualObjects(o.subSubValue, @"subSubDefaultValue", nil);
 }
 
+
 - (void)testArraySubtype
 {
 	TestTestObject *o = [[TestTestObject alloc] init];
-	[o mapAttributesWithDictionary:@{@"test_subarray" : @[ @{@"test_trivial" : @"Test1"}, @{@"test_trivial" : @"Test2"}, @{@"test_trivial" : @"Test3"}] }];
-    STAssertEqualObjects([o.subArrayValue objectAtIndex:0], @"Test1", nil);
-    STAssertEqualObjects([o.subArrayValue objectAtIndex:1], @"Test2", nil);
-    STAssertEqualObjects([o.subArrayValue objectAtIndex:2], @"Test3", nil);
+	[o mapAttributesWithDictionary:@{ @"test_subarray" : @[ @{@"test_trivial" : @"Test1"}, @{@"test_trivial" : @"Test2"}, @{@"test_trivial" : @"Test3"}] }];
+    STAssertEqualObjects([[o.subArrayValue objectAtIndex:0] testTrivial], @"Test1", nil);
+    STAssertEqualObjects([[o.subArrayValue objectAtIndex:1] testTrivial], @"Test2", nil);
+    STAssertEqualObjects([[o.subArrayValue objectAtIndex:2] testTrivial], @"Test3", nil);
 }
+
+
+- (void)testJsonMapping
+{
+	TestJsonMappedObject *o = [TestJsonMappedObject new];
+	[o mapAttributesWithDictionary:@{ @"a_value": @"foobar", @"a_bool_value": @"1" }];
+	STAssertEqualObjects(o.aValue, @"foobar", @"Value needs to be foobar");
+	STAssertEquals(o.aBoolValue, YES, @"Value needs to be True");
+}
+
+
+- (void)testGroups
+{
+	TestTestObject *oNone = [TestTestObject new];
+	TestTestObject *oA = [TestTestObject new];
+	TestTestObject *oB = [TestTestObject new];
+	TestTestObject *oC = [TestTestObject new];
+	TestTestObject *oAB = [TestTestObject new];
+
+	NSDictionary *data = @{ @"test_simple": @"simple", @"true_bool": @"1", @"test_number": @(10) };
+
+	[oNone mapAttributesWithDictionary:data groups:nil];
+	[oA mapAttributesWithDictionary:data groups:@[@"testGroupA"]];
+	[oB mapAttributesWithDictionary:data groups:@[@"testGroupB"]];
+	[oC mapAttributesWithDictionary:data groups:@[@"testGroupC"]];
+	[oAB mapAttributesWithDictionary:data groups:@[@"testGroupA", @"testGroupB"]];
+
+	STAssertEqualObjects(oNone.testSimple, @"simple", @"testSimple has no group, should be set");
+	STAssertEqualObjects(oA.testSimple, @"simple", @"testSimple has no group, should be set");
+	STAssertEqualObjects(oB.testSimple, @"simple", @"testSimple has no group, should be set");
+	STAssertEqualObjects(oC.testSimple, @"simple", @"testSimple has no group, should be set");
+	STAssertEqualObjects(oAB.testSimple, @"simple", @"testSimple has no group, should be set");
+
+	STAssertEquals(oNone.trueBool, YES, @"trueBool has groupB, should match to no group");
+	STAssertEquals(oA.trueBool, NO, @"trueBool has groupB, should not match to group A");
+	STAssertEquals(oB.trueBool, YES, @"trueBool has groupB, should not match to group B");
+	STAssertEquals(oC.trueBool, NO, @"trueBool has groupB, should not match to group C");
+	STAssertEquals(oAB.trueBool, NO, @"trueBool has groupB, should not match to group A & B");
+
+	STAssertEqualObjects(oNone.testNumber, @(10), @"testNumber has groupA, groupB, should match to no group");
+	STAssertEqualObjects(oA.testNumber, @(10), @"testNumber has groupA, groupB, should match to groupA");
+	STAssertEqualObjects(oB.testNumber, @(10), @"testNumber has groupA, groupB, should match to groupB");
+	STAssertEqualObjects(oC.testNumber, nil, @"testNumber has groupA, groupB, should not match to groupC");
+	STAssertEqualObjects(oAB.testNumber, @(10), @"testNumber has groupA, groupB, should match to groupA & groupB");
+}
+
 
 @end

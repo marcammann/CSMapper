@@ -13,8 +13,10 @@
 @interface NSObject (CSAPI)
 
 - (id)initWithDictionary:(NSDictionary *)aDictionary;
+
 - (void)mapAttributesWithDictionary:(NSDictionary *)aDictionary;
+- (void)mapAttributesWithDictionary:(NSDictionary *)aDictionary groups:(NSArray *)groups;
+
 + (NSDictionary *)mappingForEntity:(NSString *)entityKey;
-+ (id)valueForProperty:(NSString *)key fromDictionary:(NSDictionary *)aDictionary;
 
 @end

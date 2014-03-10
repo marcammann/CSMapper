@@ -37,6 +37,10 @@
 		<string>true_bool</string>
 		<key>mapper</key>
 		<string>CSAPIBoolMapper</string>
+		<key>groups</key>
+		<array>
+			<string>testGroupB</string>
+		</array>
 	</dict>
 	<key>testSubtype</key>
 	<dict>
@@ -60,6 +64,11 @@
 		<string>test_number</string>
 		<key>type</key>
 		<string>NSNumber</string>
+		<key>groups</key>
+		<array>
+			<string>testGroupA</string>
+			<string>testGroupB</string>
+		</array>
 	</dict>
 	<key>testSimple</key>
 	<dict>

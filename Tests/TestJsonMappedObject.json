@@ -1,0 +1,10 @@
+{
+    "aValue": {
+        "key": "a_value",
+        "type": "NSString"
+    },
+    "aBoolValue": {
+        "key": "a_bool_value",
+        "mapper": "CSAPIBoolMapper"
+    }
+}
