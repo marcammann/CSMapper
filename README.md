@@ -1,12 +1,12 @@
 #CSMapper
 
-In the world of mapping data to our data model, the data may change at any time, and CSMapper is the simplest solution to solve this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environment by mapping dictionaries of KVO compliant objects, to KVO compliant objects via simple plist configuration files. 
+In the world of mapping data to our data model, the data may change at any time, and CSMapper is the simplest solution to solve this problem. As an extremely lightweight mapping framework, CSMapper provides the flexibility for an ever changing development environment by mapping dictionaries of KVO compliant objects, to KVO compliant objects via simple plist or JSON configuration files.
 
 
 #Features
 
 * Flexible and lightweight
-* Maps KVO compliant objects to `NSDictionary` objects, via plist configuration
+* Maps KVO compliant objects to `NSDictionary` objects, via plist / JSON configuration
 * Supports default values for missing properties
 * Supports mapping inheritance
 * Flexible runtime transformations
@@ -18,7 +18,7 @@ In the world of mapping data to our data model, the data may change at any time,
 The basic concept behind CSMapper is a three steps :
 
 1. Define your model class
-2. Define a plist with the same name as the model class
+2. Create a plist or JSON file with the same name as the model class
 3. Define model property to `NSDictionary` property mappings in the plist. 
 
 If custom parse time values need to be generated based on multiple `NSDictionary` return values, mappers can be used to transform multiple values into a single value via `CSMapper` protocol.
@@ -71,13 +71,31 @@ __Person.plist__
 
 ```
 
+Or, alternatively:
+
+__Person.json__
+
+```
+{
+    "name": {
+        "key": "person_name"
+    },
+    "age": {
+        "key": "person_age"
+    },
+    "height": {
+        "key": "person_height"
+    }
+}
+```
+
 __Result__
 
 Once the response is received it's as easy as the following line of code to map all the values accordingly to the `Person` model class. 
 
 ```
 Person *newPersonInstance = [[Person alloc] init];
-[newPersonInstance mapAttributesFromDictionary:dictionaryResponse];
+[newPersonInstance mapAttributesWithDictionary:dictionaryResponse];
 
 ```
 
@@ -698,6 +716,55 @@ As an API developer we generally can run into many different boolean value respo
 * TRUE 
 
 When mapping a boolean value for an object, apply the `CSAPIBoolMapper` just as you would in the __Single Transform Example__ above.
+
+
+## Groups
+
+When a mapping contains a property called "groups", of type array, the property is only mapped when the requested groups are contained in the mapping groups. One exception to this is if the "groups" parameter is empty or not set.
+
+#### Example
+
+__Person.json__
+```
+{
+    "name": {
+        "key": "person_name",
+        "groups": [
+        	"list"
+        ]
+    },
+    "age": {
+        "key": "person_age",
+        "groups": [
+        	"detail",
+        	"list"
+        ]
+    },
+    "address": {
+    	"key": "address",
+    	"groups": [
+    		"detail"
+    	]
+    },
+    "height": {
+        "key": "person_height"
+    }
+}
+```
+
+##### Example 1:
+```
+Person *newPersonInstance = [[Person alloc] init];
+[newPersonInstance mapAttributesWithDictionary:dictionaryResponse groups:@[@"list"]];
+```
+In this instance, `name`, `age` & `height` get mapped since the group `list` is contained in `name` and `age`. `height` doesn't define any groups.
+
+##### Example 2:
+```
+Person *newPersonInstance = [[Person alloc] init];
+[newPersonInstance mapAttributesWithDictionary:dictionaryResponse groups:@[@"list", @"detail"]];
+```
+In this instance, `age` & `height` get mapped since both groups `list` & `detail` are contained in `age`. `height` doesn't define any groups.
 
 
 ## Testing
